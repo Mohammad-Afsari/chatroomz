@@ -1,29 +1,50 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { supabase } from "./services/supabaseClient";
 import Login from "./components/Login/Login";
-import Account from "./components/Account/Account";
+
+// Version 6 of react-router-dom 'Switch' is replaced by routers 'Routes'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
+import Signup from "./components/Signup/Signup";
+import Dashboard from "./components/Dashboard/Dashboard";
+import PrivateOutlet from "./services/PrivateOutlet";
+import { useAuth } from "./store/useAuth";
+import AuthOutlet from "./services/AuthOutlet";
 
 function App() {
-  const [session, setSession] = useState<any>(null);
+  const { setSession } = useAuth();
 
   useEffect(() => {
     setSession(supabase.auth.session());
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      console.log(_event, session);
     });
   }, []);
 
   return (
-    <div className="container" style={{ padding: "55px 0 100px 0" }}>
-      {!session ? (
-        <Login />
-      ) : (
-        <Account key={session.user.id} session={session} />
-      )}
+    <div className="container" style={{ padding: "50px 0 100px 0" }}>
+      <BrowserRouter>
+        <Routes>
+          {/* Add in react router in here with all the components */}
+          <Route path="/" element={<PrivateOutlet />}>
+            {/* Can put multiple private route elements in here */}
+            <Route path="/" element={<Dashboard />} />
+          </Route>
+          <Route path="/" element={<AuthOutlet />}>
+            {/* Can put multiple private route elements in here */}
+            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
