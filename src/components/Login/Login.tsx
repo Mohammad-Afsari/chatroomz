@@ -1,33 +1,23 @@
-import { useState } from "react";
-import { signIn, signUp } from "../../services/authentication";
+import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { signIn } from "../../services/auth";
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const emailRef = useRef<any>();
+  const passwordRef = useRef<any>();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
-      await signIn({ email, password });
-    } catch (error: any) {
-      alert(error.error_description || error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Get email and password input values
+    // const email = emailRef.current.value;
+    // const password = passwordRef.current.value;
 
-  const handleSignUp = () => {
-    try {
-      setLoading(true);
-      signUp({ email, password });
-    } catch (error: any) {
-      alert(error.error_description || error.message);
-    } finally {
-      setLoading(false);
-    }
+    // Calls `signIn` function from the context
+    await signIn({ email, password });
   };
 
   return (
@@ -47,25 +37,24 @@ export default function Auth() {
                 type="email"
                 placeholder="Your email"
                 value={email}
+                ref={emailRef}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <label htmlFor="password">Password</label>
               <input
                 id="password"
                 value={password}
+                // type="password"
+                ref={passwordRef}
                 onChange={(e) => setPassword(e.target.value)}
               ></input>
               <button className="button block" aria-live="polite">
                 Login
               </button>
             </form>
-            <button
-              className="button block"
-              aria-live="polite"
-              onClick={handleSignUp}
-            >
-              Sign ups
-            </button>
+            <p>
+              Don't have an account? <Link to="/signup">Sign Up</Link>
+            </p>
           </>
         )}
       </div>
