@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import * as React from "react";
 import { useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
@@ -31,9 +32,9 @@ const Signup = () => {
 
         <button type="submit">Sign up</button>
       </form>
-      <p>
+      <Typography>
         Already have an account? <Link to="/login">Log in</Link>
-      </p>
+      </Typography>
     </>
   );
 };
