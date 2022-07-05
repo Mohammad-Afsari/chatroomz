@@ -1,4 +1,12 @@
-import { Grid, ThemeProvider, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  Grid,
+  Paper,
+  TextField,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { signIn } from "../../services/auth";
@@ -6,8 +14,25 @@ import { supabase } from "../../services/supabaseClient";
 import { baseTheme } from "../../style/theme";
 import NavBar from "../Navbar/Navbar";
 import { TestAnimation } from "./TextAnimation";
+import Image from "../../imgs/loginbg.jpg";
+import { Box } from "@mui/system";
+import { SiStyleshare } from "react-icons/si";
 
-export default function Auth() {
+const styles = (theme: any) => ({
+  textField: {
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    paddingBottom: 0,
+    marginTop: 0,
+    fontWeight: 500,
+  },
+  input: {
+    color: "white",
+  },
+});
+
+export default function Login() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,43 +78,68 @@ export default function Auth() {
             textAlign: "center",
           }}
         >
-          <Typography variant="h2" sx={{ color: "whitesmoke" }}>
+          <Typography
+            variant="h2"
+            sx={{ color: "whitesmoke", marginBottom: "100px" }}
+          >
             ChatRoomz
           </Typography>
           {/* <TestAnimation /> */}
         </Grid>
         <Grid item xs={12} sx={{ textAlign: "center" }}>
-          <Typography component={"span"}>
+          <Typography>
             {loading ? (
               "Logging in..."
             ) : (
               <>
-                <form onSubmit={handleLogin}>
-                  <label htmlFor="email">Email</label>
-                  <input
-                    id="email"
-                    className="inputField"
+                <Box
+                  component="form"
+                  sx={{ height: "300px", width: "60vw", margin: "0 auto" }}
+                  onSubmit={handleLogin}
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Email"
                     type="email"
-                    placeholder="Your email"
-                    value={email}
-                    ref={emailRef}
+                    variant="outlined"
                     onChange={(e) => setEmail(e.target.value)}
-                    style={{ borderRadius: "4px" }}
+                    InputProps={{
+                      style: {
+                        color: "white",
+                      },
+                    }}
+                    inputProps={{ style: { color: "white", width: "50vw" } }}
                   />
-                  <label htmlFor="password">Password</label>
-                  <input
+                  <TextField
                     id="password"
-                    value={password}
-                    // type="password"
-                    ref={passwordRef}
-                    placeholder="Password"
+                    label="Password"
+                    type="password"
+                    variant="outlined"
                     onChange={(e) => setPassword(e.target.value)}
-                    style={{ borderRadius: "4px" }}
-                  ></input>
-                  <button className="button block" aria-live="polite">
+                    InputProps={{
+                      style: {
+                        color: "white",
+                      },
+                    }}
+                    inputProps={{
+                      style: {
+                        // color: "white",
+                        width: "50vw",
+                      },
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    sx={{
+                      color: "white",
+                      background: "grey",
+                      width: "20vw",
+                    }}
+                    onClick={handleLogin}
+                  >
                     Login
-                  </button>
-                </form>
+                  </Button>
+                </Box>
                 <Typography>
                   Don't have an account? <Link to="/signup">Sign Up</Link>
                 </Typography>
