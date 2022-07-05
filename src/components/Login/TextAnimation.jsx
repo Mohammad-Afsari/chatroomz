@@ -6,13 +6,11 @@ export const TestAnimation = () => {
       cursor={true}
       sequence={[
         "Welcome to ChatRoomz! :)",
-        5000,
+        4000,
         "Connect with your friends.",
-        5000,
-        "Connect with your colleagues.",
-        5000,
+        4000,
         "Chat away!",
-        5000,
+        4000,
       ]}
       wrapper="h2"
       repeat={Infinity}

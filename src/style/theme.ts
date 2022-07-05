@@ -1,4 +1,3 @@
-import { purple } from "@mui/material/colors";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 const colors = {
@@ -35,7 +34,7 @@ export const baseTheme = createTheme({
   typography: {
     allVariants: {
       color: colors.white,
-      background: colors.main,
+      background: colors.grey5,
     },
     fontFamily: [
       "Poppins",
@@ -50,12 +49,25 @@ export const baseTheme = createTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(","),
+    button: {
+      textTransform: "none",
+      fontWeight: 500,
+    },
     h1: { fontWeight: 600 },
     h2: { fontWeight: 500 },
     h3: { fontWeight: 500 },
     h4: { fontWeight: 500 },
     h5: { fontWeight: 500 },
     h6: { fontWeight: 500 },
+  },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: "contained",
+        disableRipple: true,
+        disableElevation: true,
+      },
+    },
   },
 });
 
