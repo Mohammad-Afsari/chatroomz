@@ -36,8 +36,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const emailRef = useRef<any>();
-  const passwordRef = useRef<any>();
 
   // useEffect(() => {
   //   // supabase
@@ -94,7 +92,7 @@ export default function Login() {
               <>
                 <Box
                   component="form"
-                  sx={{ height: "300px", width: "60vw", margin: "0 auto" }}
+                  sx={{ height: "200px", width: "60vw", margin: "0 auto" }}
                   onSubmit={handleLogin}
                 >
                   <TextField
@@ -141,7 +139,10 @@ export default function Login() {
                   </Button>
                 </Box>
                 <Typography>
-                  Don't have an account? <Link to="/signup">Sign Up</Link>
+                  Don't have an account?{" "}
+                  <Link to="/signup" style={{ color: "blue" }}>
+                    Sign Up
+                  </Link>
                 </Typography>
               </>
             )}
