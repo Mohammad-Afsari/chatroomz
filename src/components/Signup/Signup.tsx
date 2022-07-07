@@ -50,7 +50,7 @@ const Signup = () => {
                 margin: "0 auto",
                 marginTop: "50px",
                 paddingTop: "100px",
-                background: "navy",
+                // background: "navy",
                 borderRadius: "20px",
               }}
             >

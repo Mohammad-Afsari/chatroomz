@@ -18,7 +18,12 @@ import { useAuth } from "./store/useAuth";
 import AuthOutlet from "./services/AuthOutlet";
 import { ThemeProvider } from "@emotion/react";
 import { baseTheme } from "./style/theme";
-import { Typography } from "@mui/material";
+import {
+  createTheme,
+  CssBaseline,
+  StyledEngineProvider,
+  Typography,
+} from "@mui/material";
 
 function App() {
   const { setSession } = useAuth();
@@ -34,22 +39,21 @@ function App() {
 
   return (
     <ThemeProvider theme={baseTheme}>
-      <Typography sx={{ height: "100vh" }}>
-        <BrowserRouter>
-          <Routes>
-            {/* Add in react router in here with all the components */}
-            <Route path="/" element={<PrivateOutlet />}>
-              {/* Can put multiple private route elements in here */}
-              <Route path="/" element={<Dashboard />} />
-            </Route>
-            <Route path="/" element={<AuthOutlet />}>
-              {/* Can put multiple private route elements in here */}
-              <Route path="/signup" element={<Signup />}></Route>
-              <Route path="/login" element={<Login />}></Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Typography>
+      <CssBaseline />
+      <BrowserRouter>
+        <Routes>
+          {/* Add in react router in here with all the components */}
+          <Route path="/" element={<PrivateOutlet />}>
+            {/* Can put multiple private route elements in here */}
+            <Route path="/" element={<Dashboard />} />
+          </Route>
+          <Route path="/" element={<AuthOutlet />}>
+            {/* Can put multiple private route elements in here */}
+            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

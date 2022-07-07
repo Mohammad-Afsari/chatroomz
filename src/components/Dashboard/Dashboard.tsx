@@ -1,8 +1,9 @@
-import { Typography } from "@mui/material";
+import { List, Paper, Typography } from "@mui/material";
 import * as React from "react";
 import { useEffect } from "react";
 import { signOut } from "../../services/auth";
 import { supabase } from "../../services/supabaseClient";
+import NavBar from "../Navbar/Navbar";
 
 interface IDashboardProps {}
 
@@ -50,10 +51,59 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <>
+      <NavBar />
       <Typography>Welcome to ChatRoomz!</Typography>
       <button onClick={handleSignOut}>Sign out</button>
-    </div>
+      <Paper
+        sx={{
+          maxHeight: 500,
+          overflow: "auto",
+          width: "90vw",
+          margin: "100px auto",
+          // backgroundColor: "red",
+        }}
+      >
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+        <List>Hello</List>
+      </Paper>
+    </>
   );
 };
 

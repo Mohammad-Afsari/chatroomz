@@ -1,3 +1,4 @@
+import { green, purple } from "@mui/material/colors";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 const colors = {
@@ -22,19 +23,24 @@ const colors = {
 
 export const baseTheme = createTheme({
   palette: {
-    primary: colors,
-    background: {
-      default: colors.white,
-      paper: colors.grey0,
-    },
+    mode: "dark",
+    // primary: colors,
+    // background: {
+    //   default: colors.black,
+    //   paper: colors.black,
+    // },
+    // text: {
+    //   primary: colors.white,
+    //   secondary: colors.grey5,
+    // },
   },
   shape: {
     borderRadius: 8,
   },
   typography: {
     allVariants: {
-      color: colors.white,
-      background: colors.grey5,
+      //   color: colors.white,
+      //   background: colors.grey1,
     },
     fontFamily: [
       "Poppins",
