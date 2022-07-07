@@ -1,5 +1,6 @@
 import {
   Button,
+  Card,
   FormControl,
   Grid,
   Paper,
@@ -17,20 +18,6 @@ import { TestAnimation } from "./TextAnimation";
 import Image from "../../imgs/loginbg.jpg";
 import { Box } from "@mui/system";
 import { SiStyleshare } from "react-icons/si";
-
-const styles = (theme: any) => ({
-  textField: {
-    width: "90%",
-    marginLeft: "auto",
-    marginRight: "auto",
-    paddingBottom: 0,
-    marginTop: 0,
-    fontWeight: 500,
-  },
-  input: {
-    color: "white",
-  },
-});
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -66,7 +53,7 @@ export default function Login() {
   };
 
   return (
-    <ThemeProvider theme={baseTheme}>
+    <Box>
       <NavBar />
       <Grid container spacing={0}>
         <Grid
@@ -76,10 +63,7 @@ export default function Login() {
             textAlign: "center",
           }}
         >
-          <Typography
-            variant="h2"
-            sx={{ color: "whitesmoke", marginBottom: "100px" }}
-          >
+          <Typography variant="h2" sx={{ marginBottom: "100px" }}>
             ChatRoomz
           </Typography>
           {/* <TestAnimation /> */}
@@ -130,7 +114,7 @@ export default function Login() {
                     variant="contained"
                     sx={{
                       color: "white",
-                      background: "grey",
+                      // background: "grey",
                       width: "20vw",
                     }}
                     onClick={handleLogin}
@@ -149,6 +133,6 @@ export default function Login() {
           </Typography>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Box>
   );
 }

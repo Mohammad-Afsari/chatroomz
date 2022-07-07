@@ -11,10 +11,14 @@ import FlutterDashIcon from "@mui/icons-material/FlutterDash";
 import SendIcon from "@mui/icons-material/Send";
 import { SiFoodpanda } from "react-icons/si";
 import { ImMakeGroup } from "react-icons/im";
+import { useState } from "react";
 
-interface INavBarProps {}
+interface INavBarMenuProps {}
 
-const NavBar = () => {
+const NavBarMenu = () => {
+  const [userAuth, setUserAuth] = useState<any>();
+  const [isSignedIn, setIsSignedIn] = useState<any>(false);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -23,13 +27,17 @@ const NavBar = () => {
             size="large"
             edge="start"
             color="inherit"
-            // aria-label="menu"
+            aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <ImMakeGroup />
+            <ImMakeGroup style={{ fontSize: "30px" }} />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            ChatRoomz
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, background: "black" }}
+          >
+            Welcome to ChatRoomz
           </Typography>
           <Button color="inherit">Sign Out</Button>
         </Toolbar>
@@ -38,4 +46,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default NavBarMenu;
