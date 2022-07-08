@@ -16,7 +16,7 @@ interface INavBarProps {}
 
 const NavBar = () => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, backgroundColor: "black" }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -31,7 +31,6 @@ const NavBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             ChatRoomz
           </Typography>
-          <Button color="inherit">Sign Out</Button>
         </Toolbar>
       </AppBar>
     </Box>

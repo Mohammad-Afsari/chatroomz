@@ -61,14 +61,18 @@ export default function Login() {
           xs={12}
           sx={{
             textAlign: "center",
+            display: "flex",
           }}
         >
-          <Typography variant="h2" sx={{ marginBottom: "100px" }}>
-            ChatRoomz
+          <Typography
+            variant="h2"
+            sx={{ marginBottom: "50px", marginTop: "120px" }}
+          >
+            Sign In
           </Typography>
           {/* <TestAnimation /> */}
         </Grid>
-        <Grid item xs={12} sx={{ textAlign: "center" }}>
+        <Grid item xs={12} sx={{ textAlign: "center", display: "flex" }}>
           <Typography>
             {loading ? (
               "Logging in..."
@@ -76,7 +80,11 @@ export default function Login() {
               <>
                 <Box
                   component="form"
-                  sx={{ height: "200px", width: "60vw", margin: "0 auto" }}
+                  sx={{
+                    height: "200px",
+                    width: "60vw",
+                    margin: "0 auto",
+                  }}
                   onSubmit={handleLogin}
                 >
                   <TextField
@@ -85,6 +93,7 @@ export default function Login() {
                     type="email"
                     variant="outlined"
                     onChange={(e) => setEmail(e.target.value)}
+                    sx={{ marginBottom: "20px" }}
                     InputProps={{
                       style: {
                         color: "white",
@@ -98,6 +107,7 @@ export default function Login() {
                     type="password"
                     variant="outlined"
                     onChange={(e) => setPassword(e.target.value)}
+                    sx={{ marginBottom: "20px" }}
                     InputProps={{
                       style: {
                         color: "white",
@@ -124,7 +134,7 @@ export default function Login() {
                 </Box>
                 <Typography>
                   Don't have an account?{" "}
-                  <Link to="/signup" style={{ color: "blue" }}>
+                  <Link to="/signup" style={{ color: "white" }}>
                     Sign Up
                   </Link>
                 </Typography>
