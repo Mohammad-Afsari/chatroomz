@@ -1,4 +1,4 @@
-import { List, Paper, Typography } from "@mui/material";
+import { Box, Grid, List, Paper, Typography } from "@mui/material";
 import * as React from "react";
 import { useEffect } from "react";
 import { signOut } from "../../services/auth";
@@ -53,56 +53,75 @@ const Dashboard = () => {
   return (
     <>
       <NavBarMenu />
-      <Paper
-        sx={{
-          maxHeight: 500,
-          overflow: "auto",
-          width: "90vw",
-          margin: "100px auto",
-          // backgroundColor: "red",
-        }}
-      >
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-        <List>Hello</List>
-      </Paper>
+      {/* <Typography>Hello</Typography> */}
+      <Box sx={{ flexGrow: 1, marginTop: "15px" }}>
+        <Grid container spacing={2}>
+          <Grid item xs={3} lg={2} sx={{ border: 1, height: "100vh" }}>
+            <Typography sx={{ paddingLeft: "16px" }} variant="h6">
+              Channels
+            </Typography>
+          </Grid>
+          <Grid item xs={6} lg={8} sx={{ border: 1, height: "100vh" }}>
+            <Typography variant="h6">Chat</Typography>
+          </Grid>
+          <Grid item xs={3} lg={2} sx={{ border: 1, height: "100vh" }}>
+            <Typography variant="h6">Information</Typography>
+          </Grid>
+        </Grid>
+      </Box>
     </>
   );
 };
 
 export default Dashboard;
+
+{
+  /* <Paper
+sx={{
+  maxHeight: 500,
+  overflow: "auto",
+  width: "90vw",
+  margin: "100px auto",
+  // backgroundColor: "red",
+}}
+>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+<List>Hello</List>
+</Paper> */
+}

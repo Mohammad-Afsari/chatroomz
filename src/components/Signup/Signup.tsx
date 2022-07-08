@@ -1,16 +1,8 @@
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
-import { useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { signUp } from "../../services/auth";
 import NavBar from "../Navbar/Navbar";
-import { baseTheme } from "../../style/theme";
 
 const Signup = () => {
   const [email, setEmail] = useState<any>();
@@ -26,86 +18,102 @@ const Signup = () => {
 
   return (
     <>
-      <ThemeProvider theme={baseTheme}>
-        <NavBar />
-        <Grid container spacing={0}>
-          <Grid
-            item
-            xs={12}
+      <NavBar />
+      <Grid container spacing={0}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            width: "40vw",
+            margin: "0 auto",
+          }}
+        >
+          <Typography
+            variant="h2"
+            component="span"
             sx={{
-              textAlign: "center",
+              textAlign: "left",
+              width: "40vw",
+              margin: "0 auto",
+              marginTop: "100px",
+              marginBottom: "40px",
             }}
           >
-            <Typography
-              sx={{ fontSize: "30px", width: "60vw", margin: "0 auto" }}
-            >
-              Create an Account.
-            </Typography>
+            Create an Account
+          </Typography>
+          <Typography
+            component="span"
+            variant="h5"
+            sx={{
+              textAlign: "left",
+              width: "40vw",
+              margin: "0px auto",
+              marginBottom: "40px",
+            }}
+          >
+            Access the best chatroom service
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            width: "40vw",
+            margin: "0 auto",
+          }}
+        >
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{
+              height: "300px",
+              width: "40vw",
+              borderRadius: "20px",
+              margin: "0 auto",
+            }}
+          >
+            <TextField
+              variant="outlined"
+              placeholder="Username"
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+              sx={{ width: "40vw", textAlign: "left", marginBottom: "20px" }}
+            />
+            <TextField
+              variant="outlined"
+              placeholder="Email"
+              type="email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              sx={{ width: "40vw", marginBottom: "20px" }}
+            />
+            <TextField
+              variant="outlined"
+              placeholder="Password"
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              sx={{ width: "40vw", marginBottom: "20px" }}
+            />
             <Box
-              component="form"
-              onSubmit={handleSubmit}
               sx={{
-                height: "300px",
-                width: "60vw",
-                margin: "0 auto",
-                marginTop: "50px",
-                paddingTop: "100px",
-                // background: "navy",
-                borderRadius: "20px",
+                textAlign: "right",
               }}
             >
-              <TextField
-                variant="outlined"
-                placeholder="Username"
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                InputProps={{
-                  style: {
-                    color: "white",
-                  },
-                }}
-                inputProps={{
-                  style: {
-                    color: "white",
-                    width: "50vw",
-                  },
-                }}
-              />
-              <TextField
-                variant="outlined"
-                placeholder="Email"
-                type="email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                InputProps={{
-                  style: {
-                    color: "white",
-                  },
-                }}
-                inputProps={{ style: { color: "white", width: "50vw" } }}
-              />
-              <TextField
-                variant="outlined"
-                placeholder="Password"
-                type="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                InputProps={{
-                  style: {
-                    color: "white",
-                  },
-                }}
-                inputProps={{ style: { color: "white", width: "50vw" } }}
-              />
               <Button
                 variant="contained"
                 sx={{
-                  color: "white",
-                  background: "grey",
-                  width: "20vw",
+                  width: "15vw",
+                  textAlign: "right",
                 }}
                 type="submit"
               >
@@ -113,27 +121,20 @@ const Signup = () => {
                 Sign up
               </Button>
             </Box>
-
-            <Typography sx={{}}>
-              Already have an account?{" "}
-              <Link to="/login" style={{ color: "blue" }}>
-                Log in
-              </Link>
-            </Typography>
-          </Grid>
+          </Box>
+          <Typography variant="h6">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              style={{
+                color: "white",
+              }}
+            >
+              Log in
+            </Link>
+          </Typography>
         </Grid>
-        {/* <form onSubmit={handleSubmit}>
-          <label htmlFor="input-email">Email</label>
-          <input id="input-email" type="email" ref={emailRef} />
-
-          <label htmlFor="input-password">Password</label>
-          <input id="input-password" type="password" ref={passwordRef} />
-
-          <br />
-
-          <button type="submit">Sign up</button>
-        </form> */}
-      </ThemeProvider>
+      </Grid>
     </>
   );
 };

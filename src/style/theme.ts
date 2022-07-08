@@ -60,11 +60,11 @@ export const baseTheme = createTheme({
       fontWeight: 500,
     },
     h1: { fontWeight: 600 },
-    h2: { fontWeight: 500 },
+    h2: { fontWeight: 550 },
     h3: { fontWeight: 500 },
-    h4: { fontWeight: 500 },
-    h5: { fontWeight: 500 },
-    h6: { fontWeight: 500 },
+    h4: { fontWeight: 450 },
+    h5: { fontWeight: 400 },
+    h6: { fontWeight: 350 },
   },
   components: {
     MuiButton: {

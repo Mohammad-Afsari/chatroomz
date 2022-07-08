@@ -1,26 +1,12 @@
-import {
-  Button,
-  Card,
-  FormControl,
-  Grid,
-  Paper,
-  TextField,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Button, Grid, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { signIn } from "../../services/auth";
-import { supabase } from "../../services/supabaseClient";
-import { baseTheme } from "../../style/theme";
 import NavBar from "../Navbar/Navbar";
-import { TestAnimation } from "./TextAnimation";
-import Image from "../../imgs/loginbg.jpg";
 import { Box } from "@mui/system";
-import { SiStyleshare } from "react-icons/si";
 
 export default function Login() {
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -62,18 +48,40 @@ export default function Login() {
           sx={{
             textAlign: "center",
             display: "flex",
+            flexDirection: "column",
           }}
         >
           <Typography
             variant="h2"
-            sx={{ marginBottom: "50px", marginTop: "120px" }}
+            sx={{
+              textAlign: "left",
+              width: "40vw",
+              margin: "0px auto",
+              marginTop: "100px",
+            }}
+            component={"span"}
           >
-            Sign In
+            Sign in
+          </Typography>
+          <Typography
+            variant="h5"
+            sx={{ textAlign: "left", width: "40vw", margin: "40px auto" }}
+            component={"span"}
+          >
+            Login to access ChatRoomz
           </Typography>
           {/* <TestAnimation /> */}
         </Grid>
-        <Grid item xs={12} sx={{ textAlign: "center", display: "flex" }}>
-          <Typography>
+        <Grid item xs={12} sx={{ display: "flex" }}>
+          <Typography
+            variant="h2"
+            sx={{
+              textAlign: "left",
+              width: "40vw",
+              margin: "0 auto",
+            }}
+            component={"span"}
+          >
             {loading ? (
               "Logging in..."
             ) : (
@@ -82,8 +90,9 @@ export default function Login() {
                   component="form"
                   sx={{
                     height: "200px",
-                    width: "60vw",
                     margin: "0 auto",
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                   onSubmit={handleLogin}
                 >
@@ -93,13 +102,13 @@ export default function Login() {
                     type="email"
                     variant="outlined"
                     onChange={(e) => setEmail(e.target.value)}
-                    sx={{ marginBottom: "20px" }}
+                    sx={{ marginBottom: "20px", width: "100%" }}
                     InputProps={{
                       style: {
                         color: "white",
                       },
                     }}
-                    inputProps={{ style: { color: "white", width: "50vw" } }}
+                    inputProps={{ style: { color: "white" } }}
                   />
                   <TextField
                     id="password"
@@ -107,7 +116,7 @@ export default function Login() {
                     type="password"
                     variant="outlined"
                     onChange={(e) => setPassword(e.target.value)}
-                    sx={{ marginBottom: "20px" }}
+                    sx={{ marginBottom: "20px", width: "100%" }}
                     InputProps={{
                       style: {
                         color: "white",
@@ -116,27 +125,54 @@ export default function Login() {
                     inputProps={{
                       style: {
                         // color: "white",
-                        width: "50vw",
                       },
                     }}
                   />
-                  <Button
-                    variant="contained"
+                  <Typography
                     sx={{
-                      color: "white",
-                      // background: "grey",
-                      width: "20vw",
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "100%",
                     }}
-                    onClick={handleLogin}
+                    component={"span"}
                   >
-                    Login
-                  </Button>
+                    <Typography sx={{ textAlign: "right" }}>
+                      <Button
+                        variant="contained"
+                        type="submit"
+                        sx={{
+                          color: "white",
+                          width: "15vw",
+                        }}
+                        onClick={handleLogin}
+                      >
+                        Login
+                      </Button>
+                    </Typography>
+                  </Typography>
                 </Box>
-                <Typography>
-                  Don't have an account?{" "}
-                  <Link to="/signup" style={{ color: "white" }}>
-                    Sign Up
-                  </Link>
+                <Typography
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginTop: "20px",
+                  }}
+                >
+                  <Typography
+                    sx={{ textAlign: "center" }}
+                    component={"span"}
+                    variant="h6"
+                  >
+                    Don't have an account?{" "}
+                    <Link
+                      to="/signup"
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      Sign up
+                    </Link>
+                  </Typography>
                 </Typography>
               </>
             )}

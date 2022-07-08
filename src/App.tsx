@@ -17,13 +17,8 @@ import PrivateOutlet from "./services/PrivateOutlet";
 import { useAuth } from "./store/useAuth";
 import AuthOutlet from "./services/AuthOutlet";
 import { ThemeProvider } from "@emotion/react";
-import { baseTheme } from "./style/theme";
-import {
-  createTheme,
-  CssBaseline,
-  StyledEngineProvider,
-  Typography,
-} from "@mui/material";
+import { theme } from "./style/theme";
+import { CssBaseline } from "@mui/material";
 
 function App() {
   const { setSession } = useAuth();
@@ -38,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={baseTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
         <Routes>
