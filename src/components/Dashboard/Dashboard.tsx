@@ -3,7 +3,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { signOut } from "../../services/auth";
 import { supabase } from "../../services/supabaseClient";
-import NavBar from "../Navbar/Navbar";
+import NavBarMenu from "../Navbar/NavbarMenu";
 
 interface IDashboardProps {}
 
@@ -52,9 +52,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <NavBar />
-      <Typography>Welcome to ChatRoomz!</Typography>
-      <button onClick={handleSignOut}>Sign out</button>
+      <NavBarMenu />
       <Paper
         sx={{
           maxHeight: 500,

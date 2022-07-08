@@ -12,12 +12,14 @@ import SendIcon from "@mui/icons-material/Send";
 import { SiFoodpanda } from "react-icons/si";
 import { ImMakeGroup } from "react-icons/im";
 import { useState } from "react";
+import { signOut } from "../../services/auth";
 
 interface INavBarMenuProps {}
 
 const NavBarMenu = () => {
-  const [userAuth, setUserAuth] = useState<any>();
-  const [isSignedIn, setIsSignedIn] = useState<any>(false);
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -27,19 +29,17 @@ const NavBarMenu = () => {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="menu"
+            // aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <ImMakeGroup style={{ fontSize: "30px" }} />
+            <ImMakeGroup />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, background: "black" }}
-          >
-            Welcome to ChatRoomz
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Home
           </Typography>
-          <Button color="inherit">Sign Out</Button>
+          <Button color="inherit" onClick={handleSignOut}>
+            Sign Out
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
