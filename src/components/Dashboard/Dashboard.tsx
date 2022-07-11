@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { signOut } from "../../services/auth";
 import { supabase } from "../../services/supabaseClient";
 import NavBarMenu from "../Navbar/NavbarMenu";
+import Channel from "./Channel/Channel";
 
 interface IDashboardProps {}
 
@@ -18,7 +19,7 @@ const Dashboard = () => {
       .from("participant")
       .delete()
       .match({ id: "18dd5097-7721-4122-80db-b92c22e3cef0" });
-    console.log(data, error);
+    // console.log(data, error);
   };
 
   // use async await instead by using a variable (look at supabase docs)
@@ -53,18 +54,17 @@ const Dashboard = () => {
   return (
     <>
       <NavBarMenu />
-      {/* <Typography>Hello</Typography> */}
       <Box sx={{ flexGrow: 1, marginTop: "15px" }}>
         <Grid container spacing={2}>
-          <Grid item xs={3} lg={2} sx={{ border: 1, height: "100vh" }}>
+          <Grid item xs={3} lg={3} sx={{ border: 1, height: "100vh" }}>
             <Typography sx={{ paddingLeft: "16px" }} variant="h6">
-              Channels
+              <Channel />
             </Typography>
           </Grid>
-          <Grid item xs={6} lg={8} sx={{ border: 1, height: "100vh" }}>
+          <Grid item xs={6} lg={6} sx={{ border: 1, height: "100vh" }}>
             <Typography variant="h6">Chat</Typography>
           </Grid>
-          <Grid item xs={3} lg={2} sx={{ border: 1, height: "100vh" }}>
+          <Grid item xs={3} lg={3} sx={{ border: 1, height: "100vh" }}>
             <Typography variant="h6">Information</Typography>
           </Grid>
         </Grid>
