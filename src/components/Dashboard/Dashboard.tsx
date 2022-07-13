@@ -1,14 +1,17 @@
 import { Box, Grid, List, Paper, Typography } from "@mui/material";
 import * as React from "react";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { signOut } from "../../services/auth";
 import { supabase } from "../../services/supabaseClient";
 import NavBarMenu from "../Navbar/NavbarMenu";
 import Channel from "./Channel/Channel";
 
-interface IDashboardProps {}
-
 const Dashboard = () => {
+  const { roomId } = useParams();
+
+  console.log(roomId);
+
   const handleSignOut = async () => {
     // Ends user session
     await signOut();
@@ -25,30 +28,6 @@ const Dashboard = () => {
   // use async await instead by using a variable (look at supabase docs)
   useEffect(() => {
     handleDelete();
-
-    // supabase
-    //   .from("message")
-    //   .delete()
-    //   .match({ id: "58bc7e16-de24-4290-a6a4-4489b2ca25d0" });
-    // .then((d) => {
-    //   console.log(d);
-    // });
-    // .insert([
-    //   {
-    //     channel_name: "MusTV+knowledge",
-    //     channel_desc: "dev genius",
-    //     creator_id: "f278ff1e-3cb3-4daf-bb35-1a72a01e9f99",
-    //   },
-    // ])
-    // .match({ id: "22ce2da9-befa-44ba-8f49-52fd3afb8dff" })
-    // .then(
-    //   (d) => {
-    //     console.log(d);
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //   }
-    // );
   }, []);
 
   return (
