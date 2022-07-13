@@ -21,14 +21,15 @@ import { theme } from "./style/theme";
 import { CssBaseline } from "@mui/material";
 
 function App() {
-  const { setSession } = useAuth();
+  const { session, setSession } = useAuth();
 
   useEffect(() => {
-    setSession(supabase.auth.session());
+    // setSession(supabase.auth.session());
+    // console.log("app: render");
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      console.log(_event, session);
+      // setSession(session);
+      // console.log(_event, session);
     });
   }, []);
 
@@ -40,7 +41,7 @@ function App() {
           {/* Add in react router in here with all the components */}
           <Route path="/" element={<PrivateOutlet />}>
             {/* Can put multiple private route elements in here */}
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/:roomId" element={<Dashboard />} />
           </Route>
           <Route path="/" element={<AuthOutlet />}>
             {/* Can put multiple private route elements in here */}

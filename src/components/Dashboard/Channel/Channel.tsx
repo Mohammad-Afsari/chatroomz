@@ -8,7 +8,10 @@ import Image from "../../../imgs/loginbg.jpg";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { supabase } from "../../../services/supabaseClient";
 import { useAuth } from "../../../store/useAuth";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import CreateChannel from "./CreateChannel/CreateChannel";
+import { useChannel } from "../../../store/useChannel";
+import { isAwaitExpression } from "typescript";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -20,8 +23,12 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Channel = () => {
   const { session } = useAuth();
-  const [username, setUsername] = useState<any>();
+  const [username, setUsername] = useState<string>();
 
+  // test
+  const { channel, setChannels } = useChannel();
+
+  // get username from useAuth -- not in the object
   useEffect(() => {
     async function fetchUser() {
       const { data } = await supabase
@@ -34,20 +41,14 @@ const Channel = () => {
     fetchUser();
   }, []);
 
-  const createChannel = async () => {
-    const { data, error } = await supabase.from("channel").insert([
-      {
-        channel_name: "Mohs channel",
-        channel_desc: "Front end devs",
-        creator_id: "f278ff1e-3cb3-4daf-bb35-1a72a01e9f99",
-      },
-    ]);
-  };
-
-  const getChannel = async () => {
-    const { data, error } = await supabase.from("channel").select();
-    console.log(data);
-  };
+  useEffect(() => {
+    if (channel.length === 0) {
+      supabase
+        .from("channel")
+        .select("*")
+        .then((d) => setChannels(d.data));
+    }
+  }, []);
 
   return (
     <>
@@ -82,29 +83,18 @@ const Channel = () => {
           </Button>
         </Typography>
       </Box>
+
       <Box sx={{ width: "90%", marginTop: "20px" }}>
         <Typography sx={{ paddingBottom: "20px", textDecoration: "underline" }}>
           Channels
         </Typography>
         <Stack spacing={2}>
-          <Item>Channel 1</Item>
-          <Item>Channel 2</Item>
-          <Item>Channel 3</Item>
+          {channel?.map((chan: any) => {
+            return <Item key={chan.id}>{chan.channel_name}</Item>;
+          })}
         </Stack>
-        <Button
-          variant="contained"
-          sx={{ marginTop: "20px" }}
-          onClick={createChannel}
-        >
-          Create Channel
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ marginTop: "20px" }}
-          onClick={getChannel}
-        >
-          Display channels
-        </Button>
+        <Box sx={{ marginTop: "20px" }}></Box>
+        <CreateChannel />
       </Box>
     </>
   );
