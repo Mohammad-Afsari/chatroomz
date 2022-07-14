@@ -1,6 +1,6 @@
 import { useAuth } from "../store/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
-import React, { useEffect } from "react";
+import React from "react";
 
 const PrivateOutlet = () => {
   const { session } = useAuth();
@@ -8,4 +8,4 @@ const PrivateOutlet = () => {
 };
 
 export default React.memo(PrivateOutlet);
-// export default PrivateOutlet;
+// export default PrivateOutlet; // still works fine?

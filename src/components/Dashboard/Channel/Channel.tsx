@@ -4,14 +4,13 @@ import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { Button, Typography } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
-import Image from "../../../imgs/loginbg.jpg";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { supabase } from "../../../services/supabaseClient";
 import { useAuth } from "../../../store/useAuth";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import CreateChannel from "./CreateChannel/CreateChannel";
 import { useChannel } from "../../../store/useChannel";
-import { isAwaitExpression } from "typescript";
+import { Link, useLocation } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -24,11 +23,13 @@ const Item = styled(Paper)(({ theme }) => ({
 const Channel = () => {
   const { session } = useAuth();
   const [username, setUsername] = useState<string>();
+  const [activeChannel, setActiveChannel] = useState<string>();
+  const location = useLocation();
 
-  // test
-  const { channel, setChannels } = useChannel();
+  // Global store
+  const { channel, setChannels, setCurrentChannel } = useChannel();
 
-  // get username from useAuth -- not in the object
+  // Get username from supabase
   useEffect(() => {
     async function fetchUser() {
       const { data } = await supabase
@@ -42,6 +43,7 @@ const Channel = () => {
   }, []);
 
   useEffect(() => {
+    // If global store channel is empty then populate it with what's on supabase
     if (channel.length === 0) {
       supabase
         .from("channel")
@@ -49,6 +51,14 @@ const Channel = () => {
         .then((d) => setChannels(d.data));
     }
   }, []);
+
+  useEffect(() => {
+    setCurrentChannel(activeChannel);
+  }, [activeChannel, setCurrentChannel]);
+
+  useEffect(() => {
+    setCurrentChannel(location.pathname.slice(1, location.pathname.length));
+  }, [setCurrentChannel, location]);
 
   return (
     <>
@@ -90,7 +100,16 @@ const Channel = () => {
         </Typography>
         <Stack spacing={2}>
           {channel?.map((chan: any) => {
-            return <Item key={chan.id}>{chan.channel_name}</Item>;
+            return (
+              <Link
+                to={"/" + chan.id}
+                style={{ textDecoration: "none" }}
+                key={chan.id}
+                onClick={() => setActiveChannel(chan.id)}
+              >
+                <Item key={chan.id}>{chan.channel_name}</Item>
+              </Link>
+            );
           })}
         </Stack>
         <Box sx={{ marginTop: "20px" }}></Box>
