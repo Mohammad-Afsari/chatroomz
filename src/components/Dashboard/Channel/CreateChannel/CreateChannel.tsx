@@ -16,7 +16,7 @@ const CreateChannel = () => {
   const [channelName, setChannelName] = useState<string>();
   const [channelDesc, setChannelDesc] = useState<string>();
   const [id, setId] = useState<string>();
-  const { channel, addChannel } = useChannel();
+  const { addChannel } = useChannel();
 
   useEffect(() => {
     setId(session?.user?.id);
@@ -31,7 +31,7 @@ const CreateChannel = () => {
   };
 
   const createChannel = async () => {
-    const { data, error } = await supabase.from("channel").insert([
+    const { data } = await supabase.from("channel").insert([
       {
         channel_name: channelName,
         channel_desc: channelDesc,
