@@ -5,7 +5,7 @@ export const useMessage = create<any>()((set) => ({
   setMessages: (message: any[]) => {
     return set((state: any) => ({ message: message }));
   },
-  addMessage: (message: string) => {
+  addMessage: (message: any) => {
     return set((state: any) => ({ message: [...state.message, message] }));
   },
   clearMessages: () => set(() => ({ message: [""] })),

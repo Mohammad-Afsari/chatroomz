@@ -1,4 +1,4 @@
-import { Box, Button, List, Paper, TextField } from "@mui/material";
+import { Box, Button, List, Paper, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../../services/supabaseClient";
 import SendIcon from "@mui/icons-material/Send";
@@ -9,6 +9,7 @@ import { useMessage } from "../../../../store/useMessage";
 const Chat = () => {
   const [singleMessage, setSingleMessage] = useState<string>();
   const [id, setId] = useState<string>();
+  const [channelName, setChannelName] = useState<string>();
   const { session } = useAuth();
   const { currentChannel } = useChannel();
   const { message, setMessages, addMessage } = useMessage();
@@ -17,20 +18,34 @@ const Chat = () => {
     setId(session!.user?.id);
   }, []);
 
-  console.log(currentChannel);
+  // Get Channel name on click
+  useEffect(() => {
+    const getChannelName = async () => {
+      const { data } = await supabase
+        .from("channel")
+        .select()
+        .match({ id: currentChannel });
+      setChannelName(data![0].channel_name);
+    };
+    if (currentChannel) {
+      getChannelName();
+    }
+  }, [currentChannel]);
 
+  // Set messages to global store after fetching from supabase
   useEffect(() => {
     const fetchMessages = async () => {
       const { data } = await supabase
         .from("message")
         .select()
         .match({ channel_id: currentChannel });
-      if (message.length === 0) {
-        setMessages(data);
-      }
+      setMessages(data);
+      console.log(data);
     };
-    fetchMessages();
-  }, []);
+    if (currentChannel) {
+      fetchMessages();
+    }
+  }, [currentChannel]);
 
   const sendMessage = async () => {
     const { data } = await supabase
@@ -38,17 +53,17 @@ const Chat = () => {
       .insert([
         { user_id: id, channel_id: currentChannel, message: singleMessage },
       ]);
-    addMessage(data![0]);
-    console.log(data);
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(e.target);
   };
 
   return (
     <>
+      <Typography variant="h6" component="span">
+        # {channelName}
+      </Typography>
       {
         <Paper
           sx={{
@@ -60,9 +75,9 @@ const Chat = () => {
           }}
         >
           {message?.map((m: any) => {
-            if (m.channel_id === currentChannel) {
-              return <List key={m.id}>{m.message}</List>;
-            }
+            // if (m.channel_id === currentChannel) {
+            return <List key={m.id}>{m.message}</List>;
+            // }
           })}
         </Paper>
       }

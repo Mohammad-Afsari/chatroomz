@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
-import { Button, Typography } from "@mui/material";
+import { Avatar, Button, Grid, Typography } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { supabase } from "../../../services/supabaseClient";
@@ -11,6 +11,9 @@ import { useEffect, useState } from "react";
 import CreateChannel from "./CreateChannel/CreateChannel";
 import { useChannel } from "../../../store/useChannel";
 import { Link, useLocation } from "react-router-dom";
+import { useMessage } from "../../../store/useMessage";
+import Image from "../../../imgs/loginbg.jpg";
+import CircleIcon from "@mui/icons-material/Circle";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -23,11 +26,12 @@ const Item = styled(Paper)(({ theme }) => ({
 const Channel = () => {
   const { session } = useAuth();
   const [username, setUsername] = useState<string>();
-  const [activeChannel, setActiveChannel] = useState<string>();
   const location = useLocation();
+  const { addMessage } = useMessage();
 
   // Global store
-  const { channel, setChannels, setCurrentChannel } = useChannel();
+  const { channel, currentChannel, setChannels, setCurrentChannel } =
+    useChannel();
 
   // Get username from supabase
   useEffect(() => {
@@ -53,12 +57,21 @@ const Channel = () => {
   }, []);
 
   useEffect(() => {
-    setCurrentChannel(activeChannel);
-  }, [activeChannel, setCurrentChannel]);
+    setCurrentChannel(location.pathname.slice(1, location.pathname.length));
+  }, []);
 
   useEffect(() => {
-    setCurrentChannel(location.pathname.slice(1, location.pathname.length));
-  }, [setCurrentChannel, location]);
+    if (currentChannel) {
+      // const channelSubscription =
+      supabase
+        .from("message")
+        .on("INSERT", (payload) => {
+          console.log("Change received!", payload);
+          addMessage(payload.new);
+        })
+        .subscribe();
+    }
+  }, [currentChannel]);
 
   return (
     <>
@@ -66,15 +79,52 @@ const Channel = () => {
         <Paper sx={{ height: "80px" }}>
           <Box
             sx={{
-              width: "100%",
+              // width: "100%",
               marginTop: "20px",
+              // paddingLeft: "10px",
               display: "flex",
               height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: "left",
             }}
           >
-            <Typography variant="h6">{username}</Typography>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                alignItems: "center",
+                // justifyContent: "space-between",
+                // width: "90%",
+                // textAlign: "center",
+              }}
+            >
+              <Grid item xs={4}>
+                {" "}
+                <Typography>
+                  <Avatar
+                    src={Image}
+                    sx={{ height: 50, width: 50, marginLeft: "5px" }}
+                  />
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                {" "}
+                <Typography variant="h6" sx={{ paddingLeft: "10px" }}>
+                  {username}
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                {" "}
+                <Typography variant="h6">
+                  <CircleIcon
+                    sx={{
+                      fontSize: "10px",
+                      color: "green",
+                      paddingLeft: "0px",
+                    }}
+                  />
+                </Typography>
+              </Grid>
+            </Grid>
           </Box>
         </Paper>
       </Box>
@@ -105,7 +155,7 @@ const Channel = () => {
                 to={"/" + chan.id}
                 style={{ textDecoration: "none" }}
                 key={chan.id}
-                onClick={() => setActiveChannel(chan.id)}
+                onClick={() => setCurrentChannel(chan.id)}
               >
                 <Item key={chan.id}>{chan.channel_name}</Item>
               </Link>

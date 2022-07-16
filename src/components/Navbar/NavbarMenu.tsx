@@ -23,8 +23,8 @@ const NavBarMenu = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{}}>
-        <Toolbar sx={{ minHeight: "50px" }}>
+      <AppBar position="fixed">
+        <Toolbar sx={{ minHeight: "50px" }} variant="dense">
           <IconButton
             size="large"
             edge="start"
@@ -37,7 +37,7 @@ const NavBarMenu = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Home
           </Typography>
-          <Button color="inherit" onClick={handleSignOut} sx={{}}>
+          <Button color="inherit" onClick={handleSignOut}>
             Sign Out
           </Button>
         </Toolbar>

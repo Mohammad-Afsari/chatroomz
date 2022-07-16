@@ -3,6 +3,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../../services/supabaseClient";
+import NavbarAuth from "../Navbar/NavbarAuth";
 import NavBarMenu from "../Navbar/NavbarMenu";
 import Channel from "./Channel/Channel";
 import Chat from "./Channel/Chat/Chat";
@@ -23,20 +24,21 @@ const Dashboard = () => {
 
   return (
     <>
-      <NavBarMenu />
-      <Box sx={{ flexGrow: 1, marginTop: "15px" }}>
+      {/* <NavBarMenu /> */}
+      <NavbarAuth />
+      <Box sx={{ flexGrow: 1, marginTop: "65px" }}>
         <Grid container spacing={2}>
-          <Grid item xs={3} lg={3} sx={{ border: 1, height: "100vh" }}>
+          <Grid item xs={3} lg={2} sx={{ border: 1, height: "200vh" }}>
             <Typography sx={{ paddingLeft: "16px" }} variant="h6">
               <Channel />
             </Typography>
           </Grid>
-          <Grid item xs={6} lg={6} sx={{ border: 1, height: "100vh" }}>
+          <Grid item xs={9} lg={8} sx={{ border: 1, height: "100vh" }}>
             <Typography variant="h6">
               <Chat />{" "}
             </Typography>
           </Grid>
-          <Grid item xs={3} lg={3} sx={{ border: 1, height: "100vh" }}>
+          <Grid item xs={0} lg={2} sx={{ border: 1, height: "100vh" }}>
             <Typography variant="h6">Information</Typography>
           </Grid>
         </Grid>
