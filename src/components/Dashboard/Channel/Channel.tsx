@@ -99,7 +99,7 @@ const Channel = () => {
             >
               <Grid item xs={4}>
                 {" "}
-                <Typography>
+                <Typography component="span">
                   <Avatar
                     src={Image}
                     sx={{ height: 50, width: 50, marginLeft: "5px" }}

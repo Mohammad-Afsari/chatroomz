@@ -24,6 +24,7 @@ import Image from "../../imgs/loginbg.jpg";
 import CircleIcon from "@mui/icons-material/Circle";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Profile from "./Profile/Profile";
 
 const drawerWidth = 240;
 
@@ -117,8 +118,9 @@ const NavbarAuth = () => {
               justifyContent: "flex-end",
               display: "flex",
             }}
+            component="span"
           >
-            <Button onClick={handleSignOut}>Sign Out</Button>
+            <Button onClick={handleSignOut}>Log Out</Button>
           </Typography>
         </Toolbar>
       </AppBar>
@@ -146,52 +148,7 @@ const NavbarAuth = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          <Paper sx={{ height: "80px", width: "90%", margin: "20px auto" }}>
-            <Box
-              sx={{
-                marginTop: "20px",
-                display: "flex",
-                height: "100%",
-                justifyContent: "left",
-              }}
-            >
-              <Grid
-                container
-                spacing={2}
-                sx={{
-                  alignItems: "center",
-                }}
-              >
-                <Grid item xs={4}>
-                  {" "}
-                  <Typography>
-                    <Avatar
-                      src={Image}
-                      sx={{ height: 50, width: 50, marginLeft: "5px" }}
-                    />
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  {" "}
-                  <Typography variant="h6" sx={{ paddingLeft: "10px" }}>
-                    hello
-                  </Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  {" "}
-                  <Typography variant="h6">
-                    <CircleIcon
-                      sx={{
-                        fontSize: "10px",
-                        color: "green",
-                        paddingLeft: "0px",
-                      }}
-                    />
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </Paper>
+          <Profile />
         </List>
         <Divider />
         <List>
