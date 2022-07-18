@@ -22,9 +22,9 @@ import { Avatar, Button, Grid, Paper } from "@mui/material";
 import { signOut } from "../../services/auth";
 import Image from "../../imgs/loginbg.jpg";
 import CircleIcon from "@mui/icons-material/Circle";
-import GroupIcon from "@mui/icons-material/Group";
-import SettingsIcon from "@mui/icons-material/Settings";
 import Profile from "./Profile/Profile";
+import Settings from "./Settings/Settings";
+import Channels from "./Channels/Channels";
 
 const drawerWidth = 240;
 
@@ -152,23 +152,12 @@ const NavbarAuth = () => {
         </List>
         <Divider />
         <List>
-          <Box sx={{ width: "90%", marginTop: "20px", paddingLeft: "10px" }}>
-            <Typography variant="h6">
-              <Button variant="text" sx={{ marginBottom: "14px" }}>
-                <GroupIcon sx={{ fontSize: "20px", color: "#90caf9" }} />
-                <span style={{ paddingLeft: "10px" }}>Members</span>
-              </Button>
-            </Typography>
-            <Typography>
-              <Button variant="text" sx={{ marginBottom: "14px" }}>
-                <SettingsIcon sx={{ fontSize: "20px", color: "#90caf9" }} />
-                <span style={{ paddingLeft: "10px" }}>Settings</span>
-              </Button>
-            </Typography>
-          </Box>
+          <Settings />{" "}
         </List>
         <Divider />
-        <List>Hi</List>
+        <List>
+          <Channels />
+        </List>
       </Drawer>
 
       <Main open={open}>
