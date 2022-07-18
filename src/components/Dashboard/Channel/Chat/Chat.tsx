@@ -14,6 +14,7 @@ const Chat = () => {
   const { currentChannel } = useChannel();
   const { message, setMessages, addMessage } = useMessage();
 
+  // Get user Id
   useEffect(() => {
     setId(session!.user?.id);
   }, []);
@@ -40,12 +41,13 @@ const Chat = () => {
         .select()
         .match({ channel_id: currentChannel });
       setMessages(data);
+
       console.log(data);
     };
     if (currentChannel) {
       fetchMessages();
     }
-  }, [currentChannel]);
+  }, [currentChannel]); // message was in here hence why we cant see the message instand anymore, also, before the console.log(data ) wasnt here and now it's re-rendering multiple times
 
   const sendMessage = async () => {
     const { data } = await supabase
@@ -53,6 +55,7 @@ const Chat = () => {
       .insert([
         { user_id: id, channel_id: currentChannel, message: singleMessage },
       ]);
+    // addMessage(singleMessage);
   };
 
   const handleSubmit = (e: any) => {
