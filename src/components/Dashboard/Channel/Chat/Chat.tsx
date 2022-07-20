@@ -41,8 +41,6 @@ const Chat = () => {
         .select()
         .match({ channel_id: currentChannel });
       setMessages(data);
-
-      console.log(data);
     };
     if (currentChannel) {
       fetchMessages();

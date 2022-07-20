@@ -13,16 +13,16 @@ const Profile = () => {
   const [avatarImage, setAvatarImage] = useState<string>();
 
   useEffect(() => {
-    console.log(avatarImage);
+    // console.log(avatarImage);
   }, [avatarImage]);
 
   useEffect(() => {
     const uploadAvatar = async () => {
       const { data, error } = await supabase.storage.getBucket("avatars");
 
-      console.log(data);
+      // console.log(data);
     };
-    uploadAvatar();
+    // uploadAvatar();
   }, []);
 
   useEffect(() => {

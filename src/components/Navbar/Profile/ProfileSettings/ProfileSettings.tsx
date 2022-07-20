@@ -49,27 +49,3 @@ const ProfileSettings = () => {
 };
 
 export default ProfileSettings;
-
-{
-  /* <Box sx={{ width: "90%", marginTop: "20px", paddingLeft: "20px" }}>
-<Typography sx={{ paddingBottom: "20px" }} variant="h6">
-  # Channels
-</Typography>
-<Stack spacing={2}>
-  {channel?.map((chan: any) => {
-    return (
-      <Link
-        to={"/" + chan.id}
-        style={{ textDecoration: "none" }}
-        key={chan.id}
-        onClick={() => setCurrentChannel(chan.id)}
-      >
-        <Item key={chan.id}>{chan.channel_name}</Item>
-      </Link>
-    );
-  })}
-</Stack>
-<Box sx={{ marginTop: "20px" }}></Box>
-<CreateChannel />
-</Box> */
-}
