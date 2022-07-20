@@ -11,26 +11,13 @@ import Channel from "./Channel/Channel";
 import Chat from "./Channel/Chat/Chat";
 
 const Dashboard = () => {
-  const { roomId } = useParams();
-
-  const handleDelete = async () => {
-    await supabase
-      .from("participant")
-      .delete()
-      .match({ id: "18dd5097-7721-4122-80db-b92c22e3cef0" });
-  };
-
-  useEffect(() => {
-    handleDelete();
-  }, []);
-
   return (
     <>
       {/* <NavBarMenu /> */}
 
       <NavbarAuth />
 
-      <Box sx={{ flexGrow: 1, marginTop: "65px" }}>
+      {/* <Box sx={{ flexGrow: 1, marginTop: "1000px" }}>
         <Grid container spacing={2}>
           <Grid item xs={3} lg={2} sx={{ border: 1, height: "200vh" }}>
             <Typography sx={{ paddingLeft: "16px" }} variant="h6">
@@ -53,7 +40,7 @@ const Dashboard = () => {
             <Typography variant="h6">Information</Typography>
           </Grid>
         </Grid>
-      </Box>
+      </Box> */}
     </>
   );
 };

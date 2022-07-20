@@ -38,10 +38,6 @@ export const baseTheme = createTheme({
     borderRadius: 8,
   },
   typography: {
-    allVariants: {
-      //   color: colors.white,
-      //   background: colors.grey1,
-    },
     fontFamily: [
       "Poppins",
       "-apple-system",
