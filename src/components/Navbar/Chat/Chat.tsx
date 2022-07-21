@@ -29,8 +29,6 @@ const Chat = () => {
   const { currentChannel } = useChannel();
   const { message, setMessages, addMessage } = useMessage();
 
-  console.log(currentChannel);
-
   // no longer req
   const [value, setValue] = useState<string>();
 
@@ -63,9 +61,6 @@ const Chat = () => {
         // .select()
         .match({ channel_id: currentChannel });
       setMessages(data);
-
-      console.log(message);
-      //   console.log(message);
     };
     if (currentChannel) {
       fetchMessages();
@@ -192,7 +187,7 @@ const Chat = () => {
           //   value={value}
           sx={{
             margin: "0 auto",
-            // marginTop: "20px",
+            marginTop: "20px",
             width: "100%",
             // position: "fixed",
           }}

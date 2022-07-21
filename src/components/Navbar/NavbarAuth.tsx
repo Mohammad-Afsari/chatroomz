@@ -18,6 +18,10 @@ import Profile from "./Profile/Profile";
 import Settings from "./Settings/Settings";
 import Channels from "./Channels/Channels";
 import Chat from "./Chat/Chat";
+import { useChannel } from "../../store/useChannel";
+import { useLocation } from "react-router-dom";
+import { supabase } from "../../services/supabaseClient";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const drawerWidth = 240;
 
@@ -76,6 +80,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const NavbarAuth = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const { currentChannel, channel } = useChannel();
+  const [channelName, setChannelName] = React.useState<string>();
+  const [channelDesc, setChannelDesc] = React.useState<string>();
+  const location = useLocation();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -88,6 +96,27 @@ const NavbarAuth = () => {
   const handleSignOut = async () => {
     await signOut();
   };
+
+  // Get channel name on load
+  React.useEffect(() => {
+    if (currentChannel) {
+    }
+    console.log(location.pathname.slice(1, location.pathname.length));
+  }, []);
+
+  React.useEffect(() => {
+    const getChannelInfo = async () => {
+      const { data } = await supabase
+        .from("channel")
+        .select()
+        .match({ id: currentChannel });
+      setChannelName(data![0].channel_name);
+      setChannelDesc(data![0].channel_desc);
+    };
+    if (currentChannel) {
+      getChannelInfo();
+    }
+  }, [currentChannel]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -103,19 +132,29 @@ const NavbarAuth = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ width: "50%" }}>
-            ChatRoomz
+          <Typography variant="h6" noWrap component="div" sx={{ width: "95%" }}>
+            {channelName}
+            {currentChannel ? " ~ " : ""}
+            <span style={{ fontSize: "12px" }}>{channelDesc}</span>
           </Typography>
           <Typography
             variant="h6"
             sx={{
-              width: "50%",
+              width: "5%",
               justifyContent: "flex-end",
               display: "flex",
             }}
             component="span"
           >
-            <Button onClick={handleSignOut}>Log Out</Button>
+            <Button
+              sx={{
+                cursor: "pointer",
+                minWidth: "0px",
+                maxWidth: "25px",
+              }}
+            >
+              <DeleteIcon />
+            </Button>
           </Typography>
         </Toolbar>
       </AppBar>
