@@ -40,6 +40,8 @@ const Channel = () => {
         .select("*")
         .then((d) => setChannels(d.data));
     }
+
+    console.log(channel);
   }, []);
 
   useEffect(() => {

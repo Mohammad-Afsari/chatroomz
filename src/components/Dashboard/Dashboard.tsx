@@ -1,14 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import * as React from "react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { supabase } from "../../services/supabaseClient";
-import Members from "../Navbar/Members";
 import NavbarAuth from "../Navbar/NavbarAuth";
-import NavBarMenu from "../Navbar/NavbarMenu";
-import ProfileSettings from "../Navbar/Profile/ProfileSettings/ProfileSettings";
-import Channel from "./Channel/Channel";
-import Chat from "./Channel/Chat/Chat";
 
 const Dashboard = () => {
   return (
