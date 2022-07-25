@@ -13,4 +13,5 @@ export const useChannel = create<any>()((set) => ({
     return set((state: any) => ({ currentChannel: currentChannel }));
   },
   clearChannel: () => set(() => ({ channel: [""] })),
+  ifDeleted: "", // need to think about
 }));

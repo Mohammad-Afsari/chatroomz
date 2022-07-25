@@ -80,10 +80,6 @@ const Chat = () => {
     // setValue("");
   };
 
-  const handleDelete = () => {
-    console.log("hey");
-  };
-
   return (
     <>
       {/* <Grid
@@ -149,7 +145,7 @@ const Chat = () => {
             {message?.map((m: any) => {
               //   console.log(message);
               let date = new Date(m.message_sent_at).toISOString();
-              let messageSent =
+              let messageTimeSent =
                 date.substring(11, 16) +
                 " " +
                 date.substring(8, 10) +
@@ -168,7 +164,7 @@ const Chat = () => {
                     <Grid container spacing={0} direction="column">
                       <Grid item xs={10} sx={{ fontSize: "12px" }}>
                         {/* {m.profile.username} */}
-                        {messageSent}
+                        {messageTimeSent}
                       </Grid>
                       <Grid item xs={2} sx={{ fontSize: "16px" }}>
                         {m.message}

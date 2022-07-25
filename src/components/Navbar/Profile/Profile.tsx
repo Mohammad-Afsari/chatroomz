@@ -6,11 +6,26 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../../services/supabaseClient";
 import { useAuth } from "../../../store/useAuth";
 import ProfileSettings from "./ProfileSettings/ProfileSettings";
+import { useQuery } from "@tanstack/react-query";
 
 const Profile = () => {
   const { session } = useAuth();
   const [username, setUsername] = useState<string>();
   const [avatarImage, setAvatarImage] = useState<string>();
+
+  const fetchUsers = async () => {
+    const { data } = await supabase
+      .from("profile")
+      .select("*")
+      .match({ id: session?.user?.id })
+      .single();
+    return data;
+  };
+
+  // Using React-Query
+  const { data, isLoading, error } = useQuery<any>(["userData"], () =>
+    fetchUsers()
+  );
 
   useEffect(() => {
     // console.log(avatarImage);
@@ -36,6 +51,9 @@ const Profile = () => {
     }
     fetchUser();
   }, []);
+  console.log(data);
+
+  if (error) return <p>'An error has occursed'</p>;
 
   return (
     <>
@@ -86,7 +104,9 @@ const Profile = () => {
                 sx={{ paddingLeft: "10px", height: "25px" }}
                 component="span"
               >
-                {username}
+                {/* {username} */}
+                {data && data.username}
+                {/* donkey */}
               </Typography>
               <Typography sx={{ paddingLeft: "10px" }}>
                 <CircleIcon
