@@ -4,7 +4,7 @@ import { supabase } from "../../../services/supabaseClient";
 import { useEffect, useState } from "react";
 import CreateChannel from "./CreateChannel/CreateChannel";
 import { useChannel } from "../../../store/useChannel";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useMessage } from "../../../store/useMessage";
 
 import * as React from "react";
@@ -16,8 +16,9 @@ import Divider from "@mui/material/Divider";
 
 const Channel = () => {
   const location = useLocation();
-  const { addMessage } = useMessage();
+  const { message, addMessage } = useMessage();
   const [ifChosen, setIfChosen] = useState<boolean>(false);
+  const { roomId } = useParams();
 
   // Global store
   const { channel, currentChannel, setChannels, setCurrentChannel } =
@@ -40,16 +41,15 @@ const Channel = () => {
         .select("*")
         .then((d) => setChannels(d.data));
     }
+  }, []); // roomId
 
-    console.log(channel);
+  useEffect(() => {
+    setCurrentChannel(roomId);
+    // setIfChosen(true); // not sure why I was using this?
   }, []);
 
   useEffect(() => {
-    setCurrentChannel(location.pathname.slice(1, location.pathname.length));
-    setIfChosen(true);
-  }, []);
-
-  useEffect(() => {
+    // console.log(currentChannel);
     if (currentChannel) {
       supabase
         .from(`message:channel_id=eq.${currentChannel}`)
@@ -72,27 +72,27 @@ const Channel = () => {
           aria-label="main mailbox folders"
           sx={{ marginBottom: "10px" }}
         >
-          {ifChosen &&
-            channel?.map((chan: any, key: number) => {
-              return (
-                <Link
-                  to={"/" + chan.id}
-                  style={{ textDecoration: "none" }}
-                  key={chan.id}
-                  onClick={() => setCurrentChannel(chan.id)}
+          {/* {ifChosen &&} */}
+          {channel?.map((chan: any, key: number) => {
+            return (
+              <Link
+                to={"/" + chan.id}
+                style={{ textDecoration: "none" }}
+                key={chan.id}
+                onClick={() => setCurrentChannel(chan.id)}
+              >
+                <ListItemButton
+                  selected={selectedIndex === key + 2}
+                  onClick={(event) => {
+                    handleListItemClick(event, key + 2);
+                  }}
+                  sx={{ borderRadius: "10px", color: "lightGray" }}
                 >
-                  <ListItemButton
-                    selected={selectedIndex === key + 2}
-                    onClick={(event) => {
-                      handleListItemClick(event, key + 2);
-                    }}
-                    sx={{ borderRadius: "10px", color: "lightGray" }}
-                  >
-                    <ListItemText primary={chan.channel_name} />
-                  </ListItemButton>
-                </Link>
-              );
-            })}
+                  <ListItemText primary={chan.channel_name} />
+                </ListItemButton>
+              </Link>
+            );
+          })}
         </List>
         <CreateChannel />
         <Divider sx={{ marginTop: "20px" }} />

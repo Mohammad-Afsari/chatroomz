@@ -19,9 +19,12 @@ import AuthOutlet from "./services/AuthOutlet";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "./style/theme";
 import { CssBaseline } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
   const { session, setSession } = useAuth();
+
+  const queryClient = new QueryClient();
 
   useEffect(() => {
     setSession(supabase.auth.session()); // removed for example
@@ -32,24 +35,26 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          {/* Add in react router in here with all the components */}
-          <Route path="/" element={<PrivateOutlet />}>
-            {/* Can put multiple private route elements in here */}
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/:roomId" element={<Dashboard />} />
-          </Route>
-          <Route path="/" element={<AuthOutlet />}>
-            {/* Can put multiple private route elements in here */}
-            <Route path="/signup" element={<Signup />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
+            {/* Add in react router in here with all the components */}
+            <Route path="/" element={<PrivateOutlet />}>
+              {/* Can put multiple private route elements in here */}
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/:roomId" element={<Dashboard />} />
+            </Route>
+            <Route path="/" element={<AuthOutlet />}>
+              {/* Can put multiple private route elements in here */}
+              <Route path="/signup" element={<Signup />}></Route>
+              <Route path="/login" element={<Login />}></Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

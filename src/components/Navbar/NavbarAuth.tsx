@@ -12,16 +12,17 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Button } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { signOut } from "../../services/auth";
 import Profile from "./Profile/Profile";
 import Settings from "./Settings/Settings";
 import Channels from "./Channels/Channels";
 import Chat from "./Chat/Chat";
 import { useChannel } from "../../store/useChannel";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { supabase } from "../../services/supabaseClient";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteChannel from "./Channels/DeleteChannel/DeleteChannel";
 
 const drawerWidth = 240;
 
@@ -84,7 +85,9 @@ const NavbarAuth = () => {
   const [channelName, setChannelName] = React.useState<string>();
   const [channelDesc, setChannelDesc] = React.useState<string>();
   const location = useLocation();
+  let { roomId } = useParams();
 
+  //   console.log(roomId);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -98,11 +101,11 @@ const NavbarAuth = () => {
   };
 
   // Get channel name on load
-  React.useEffect(() => {
-    if (currentChannel) {
-    }
-    console.log(location.pathname.slice(1, location.pathname.length));
-  }, []);
+  //   React.useEffect(() => {
+  //     if (currentChannel) {
+  //     }
+  //     console.log(location.pathname.slice(1, location.pathname.length));
+  //   }, []);
 
   React.useEffect(() => {
     const getChannelInfo = async () => {
@@ -146,15 +149,7 @@ const NavbarAuth = () => {
             }}
             component="span"
           >
-            <Button
-              sx={{
-                cursor: "pointer",
-                minWidth: "0px",
-                maxWidth: "25px",
-              }}
-            >
-              <DeleteIcon />
-            </Button>
+            {roomId && <DeleteChannel />}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -197,7 +192,8 @@ const NavbarAuth = () => {
       <Main open={open}>
         <DrawerHeader />
         {/* Put in chatrooms intro into the app */}
-        <Chat />
+        {roomId && <Chat />}
+        {!roomId && <Paper>hello</Paper>}
       </Main>
     </Box>
   );
