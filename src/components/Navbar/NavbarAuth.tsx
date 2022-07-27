@@ -23,6 +23,8 @@ import { useLocation, useParams } from "react-router-dom";
 import { supabase } from "../../services/supabaseClient";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteChannel from "./Channels/DeleteChannel/DeleteChannel";
+import Home from "./Home/Home";
+import { useTitle } from "../../store/useTitle";
 
 const drawerWidth = 240;
 
@@ -81,13 +83,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const NavbarAuth = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const { currentChannel, channel } = useChannel();
-  const [channelName, setChannelName] = React.useState<string>();
-  const [channelDesc, setChannelDesc] = React.useState<string>();
-  const location = useLocation();
+  const { channelTitle, channelDescription } = useTitle();
   let { roomId } = useParams();
 
-  //   console.log(roomId);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -95,31 +93,6 @@ const NavbarAuth = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const handleSignOut = async () => {
-    await signOut();
-  };
-
-  // Get channel name on load
-  //   React.useEffect(() => {
-  //     if (currentChannel) {
-  //     }
-  //     console.log(location.pathname.slice(1, location.pathname.length));
-  //   }, []);
-
-  React.useEffect(() => {
-    const getChannelInfo = async () => {
-      const { data } = await supabase
-        .from("channel")
-        .select()
-        .match({ id: currentChannel });
-      setChannelName(data![0].channel_name);
-      setChannelDesc(data![0].channel_desc);
-    };
-    if (currentChannel) {
-      getChannelInfo();
-    }
-  }, [currentChannel]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -136,9 +109,11 @@ const NavbarAuth = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ width: "95%" }}>
-            {channelName}
-            {currentChannel ? " ~ " : ""}
-            <span style={{ fontSize: "12px" }}>{channelDesc}</span>
+            {channelTitle && channelTitle}
+            {channelDescription ? " ~ " : ""}
+            <span style={{ fontSize: "12px" }}>
+              {channelDescription && channelDescription}
+            </span>
           </Typography>
           <Typography
             variant="h6"
@@ -193,7 +168,7 @@ const NavbarAuth = () => {
         <DrawerHeader />
         {/* Put in chatrooms intro into the app */}
         {roomId && <Chat />}
-        {!roomId && <Paper>hello</Paper>}
+        {!roomId && <Home />}
       </Main>
     </Box>
   );

@@ -16,16 +16,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 // Success response
 export const DeleteSuccess = () => {
   const [open, setOpen] = React.useState(false);
-  // const { ifDeleted } = useChannel();
-
-  // console.log(ifDeleted);
 
   const handleClick = () => {
     setOpen(true);
     // ifDeleted(true);
   };
 
-  // console.log(ifDeleted);
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
