@@ -13,33 +13,26 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../../../store/useAuth";
 import { DeleteSuccess, DeleteError } from "./DeleteResponse/DeleteResponse";
 import { Typography } from "@mui/material";
+import { useTitle } from "../../../../store/useTitle";
 
 const DeleteChannel = () => {
   const [open, setOpen] = useState(false);
-  const { currentChannel } = useChannel();
+  const { currentChannel, setCurrentChannel } = useChannel();
   const [ifDeleteValid, setIfDeleteValid] = useState<boolean>(false);
   const { session } = useAuth();
   const [channelCreator, setChannelCreator] = useState<string>();
   const { roomId } = useParams();
-
-  // Note
-  // need to update the state in useChannel so that the channels list can re-render when a channel gets deleted
-  const { channel, setChannels } = useChannel();
+  const { setChannelTitle, setChannelDescription } = useTitle();
 
   // Temporarily put in to resolve UI feedback on form issue
   useEffect(() => {
     const fetchChannelCreator = async () => {
-      let updatedChannels = [];
-
       const { data } = await supabase.from("channel").select();
-      // .match({ id: roomId });
       data?.map((chan: any) => {
         if (chan.id === roomId) {
           setChannelCreator(chan.creator_id);
         }
       });
-
-      // setChannelCreator(data![0].creator_id);
     };
     fetchChannelCreator();
   }, [roomId]);
@@ -87,6 +80,9 @@ const DeleteChannel = () => {
 
       deleteChannel();
       deleteMessages();
+      setChannelTitle("Home");
+      setChannelDescription("");
+      setCurrentChannel("");
     } else {
       setIfDeleteValid(false);
     }
