@@ -68,8 +68,6 @@ const CreateChannel = () => {
     } else {
       formRef.current.reportValidity();
     }
-
-    console.log(formRef.current.reportValidity());
   };
 
   return (

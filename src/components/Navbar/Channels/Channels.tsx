@@ -35,8 +35,6 @@ const Channel = () => {
     getChannels();
   }, [roomId]);
 
-  console.log(data);
-
   useEffect(() => {
     setCurrentChannel(roomId);
   }, []);
@@ -71,7 +69,6 @@ const Channel = () => {
           aria-label="main mailbox folders"
           sx={{ marginBottom: "10px" }}
         >
-          {/* {ifChosen &&} */}
           {data &&
             data?.map((chan: any, key: number) => {
               return (
@@ -95,9 +92,16 @@ const Channel = () => {
             })}
         </List>
       </Box>
-      <Box sx={{ paddingLeft: "20px", marginTop: "30px" }}>
-        <CreateChannel />
-        <Divider sx={{ marginTop: "30px" }} />
+      <Box sx={{ marginTop: "30px" }}>
+        <Typography component="div" sx={{ paddingLeft: "20px" }}>
+          <CreateChannel />
+        </Typography>
+        <Typography
+          component="div"
+          sx={{ width: "90%", margin: "0 auto", marginTop: "30px" }}
+        >
+          <Divider />
+        </Typography>
       </Box>
     </>
   );

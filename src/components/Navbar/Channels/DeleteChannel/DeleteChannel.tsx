@@ -23,6 +23,7 @@ const DeleteChannel = () => {
   const [channelCreator, setChannelCreator] = useState<string>();
   const { roomId } = useParams();
   const { setChannelTitle, setChannelDescription } = useTitle();
+  const { setChannels } = useChannel();
 
   // Temporarily put in to resolve UI feedback on form issue
   useEffect(() => {
@@ -66,9 +67,7 @@ const DeleteChannel = () => {
           .from("channel")
           .delete()
           .match({ id: currentChannel, creator_id: session?.user?.id });
-        setTimeout(() => {
-          setOpen(false);
-        }, 2000);
+        setOpen(false);
       };
 
       const deleteMessages = async () => {
@@ -83,10 +82,17 @@ const DeleteChannel = () => {
       setChannelTitle("Home");
       setChannelDescription("");
       setCurrentChannel("");
+      // fetchNewChannels();
     } else {
       setIfDeleteValid(false);
     }
   };
+
+  // const fetchNewChannels = async () => {
+  //   const { data } = await supabase.from("channel").select();
+  //   setChannels(data);
+  //   console.log(data);
+  // };
 
   return (
     <div>
