@@ -19,6 +19,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import DeleteIcon from "@mui/icons-material/Delete";
+import useMessages from "../../../services/useMessages";
 
 const Chat = () => {
   const [singleMessage, setSingleMessage] = useState<string>();
@@ -27,7 +28,14 @@ const Chat = () => {
   const [channelDesc, setChannelDesc] = useState<string>();
   const { session } = useAuth();
   const { currentChannel } = useChannel();
-  const { message, setMessages, addMessage } = useMessage();
+  const { setMessages } = useMessage();
+  const { data } = useMessages();
+  const scrollRef = React.useRef<any>(null);
+
+  const runScroll = () =>
+    scrollRef!.current!.scrollIntoView({ behaviour: "smooth" });
+
+  // scrollRef.scrollIntoView({ top: element.scrollHeight, behavior: "smooth" });
 
   // no longer req
   const [value, setValue] = useState<string>();
@@ -39,18 +47,23 @@ const Chat = () => {
 
   // Get Channel name on click
   useEffect(() => {
-    const getChannelName = async () => {
-      const { data } = await supabase
-        .from("channel")
-        .select()
-        .match({ id: currentChannel });
+    // const getChannelName = async () => {
+    //   const { data } = await supabase
+    //     .from("channel")
+    //     .select()
+    //     .match({ id: currentChannel });
+    //   setChannelName(data![0].channel_name);
+    //   setChannelDesc(data![0].channel_desc);
+    // };
+    // if (currentChannel) {
+    //   getChannelName();
+    // }
+    if (data & currentChannel) {
       setChannelName(data![0].channel_name);
       setChannelDesc(data![0].channel_desc);
-    };
-    if (currentChannel) {
-      getChannelName();
     }
-  }, [currentChannel]);
+    console.log(data);
+  }, [channelName, currentChannel]);
 
   // Set messages to global store after fetching from supabase
   useEffect(() => {
@@ -58,77 +71,32 @@ const Chat = () => {
       const { data } = await supabase
         .from("message")
         .select("*, profile (username)")
-        // .select()
         .match({ channel_id: currentChannel });
       setMessages(data);
     };
     if (currentChannel) {
       fetchMessages();
     }
-  }, [currentChannel]); // message was in here hence why we cant see the message instand anymore, also, before the console.log(data ) wasnt here and now it's re-rendering multiple times
+  }, [currentChannel]);
 
   const sendMessage = async () => {
-    const { data } = await supabase
+    await supabase
       .from("message")
       .insert([
         { user_id: id, channel_id: currentChannel, message: singleMessage },
       ]);
+
+    setTimeout(() => {
+      runScroll();
+    }, 500);
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // setValue("");
   };
 
   return (
     <>
-      {/* <Grid
-        container
-        spacing={1}
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          margin: "0 auto",
-          width: "95%",
-        }}
-      >
-        <Paper
-          sx={{
-            backgroundColor: "rgba(144, 202, 249, 0.16)",
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <Grid item xs={6}>
-            <Typography
-              variant="h6"
-              sx={{
-                color: "#90caf9",
-              }}
-            >
-              # {channelName}
-              <Typography paragraph>{channelDesc}</Typography>
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            sx={{
-              justifyContent: "flex-end",
-              textAlign: "right",
-              marginRight: 3,
-            }}
-            onClick={handleDelete}
-          >
-            <Button
-              sx={{ cursor: "pointer", minWidth: "0px", maxWidth: "25px" }}
-            >
-              <DeleteIcon />
-            </Button>
-          </Grid>
-        </Paper>
-      </Grid> */}
       {
         <Paper
           sx={{
@@ -139,11 +107,10 @@ const Chat = () => {
             margin: "0 auto",
             marginTop: "10px",
           }}
+          // ref={scrollRef}
         >
           <List sx={{ width: "100%" }}>
-            {/* <ListItem sx={{ height: "57vh" }}></ListItem> */}
-            {message?.map((m: any) => {
-              //   console.log(message);
+            {data?.map((m: any) => {
               let date = new Date(m.message_sent_at).toISOString();
               let messageTimeSent =
                 date.substring(11, 16) +
@@ -162,9 +129,11 @@ const Chat = () => {
                       </Avatar>
                     </ListItemAvatar>
                     <Grid container spacing={0} direction="column">
-                      <Grid item xs={10} sx={{ fontSize: "12px" }}>
-                        {/* {m.profile.username} */}
-                        {messageTimeSent}
+                      <Grid item xs={10} sx={{}}>
+                        {data && m.profile.username + " "}
+                        <Typography component="span" sx={{ fontSize: "10px" }}>
+                          {data && messageTimeSent}
+                        </Typography>
                       </Grid>
                       <Grid item xs={2} sx={{ fontSize: "16px" }}>
                         {m.message}
@@ -175,6 +144,7 @@ const Chat = () => {
               );
             })}
           </List>
+          <List ref={scrollRef}></List>
         </Paper>
       }
       <Box sx={{ display: "flex" }} component="form" onSubmit={handleSubmit}>

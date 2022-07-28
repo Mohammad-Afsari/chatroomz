@@ -5,16 +5,18 @@ import { useChannel } from "../store/useChannel";
 
 export const useChannels = () => {
   const { roomId } = useParams();
-  const roomIdTest = roomId ? roomId : "home";
+  const roomIdAddon = roomId ? roomId : "home";
   const { channel } = useChannel();
 
-  console.log(channel);
   const fetchChannels = async () => {
-    const { data } = await supabase.from("channel").select();
+    const { data } = await supabase
+      .from("channel")
+      .select()
+      .order("created_at", { ascending: true });
     return data;
   };
 
-  return useQuery<any>(["channelData", roomIdTest, channel], fetchChannels, {
-    enabled: !!roomIdTest,
+  return useQuery<any>(["channelData", roomIdAddon, channel], fetchChannels, {
+    keepPreviousData: true,
   });
 };

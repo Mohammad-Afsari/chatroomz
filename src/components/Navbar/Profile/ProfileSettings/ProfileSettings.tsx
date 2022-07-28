@@ -19,7 +19,7 @@ const ProfileSettings = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  console.log(currentChannel);
+
   useEffect(() => {
     const getChannelInfo = async () => {
       const { data } = await supabase

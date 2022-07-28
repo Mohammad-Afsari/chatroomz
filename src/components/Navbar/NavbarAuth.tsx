@@ -110,10 +110,10 @@ const NavbarAuth = () => {
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ width: "95%" }}>
             {channelTitle && channelTitle}
-            {channelDescription ? " ~ " : ""}
+            {/* {channelDescription ? " ~ " : ""}
             <span style={{ fontSize: "12px" }}>
               {channelDescription && channelDescription}
-            </span>
+            </span> */}
           </Typography>
           <Typography
             variant="h6"
@@ -154,11 +154,15 @@ const NavbarAuth = () => {
         <List>
           <Profile />
         </List>
-        <Divider />
+        <Typography component="div" sx={{ width: "90%", margin: "0 auto" }}>
+          <Divider />
+        </Typography>
         <List>
           <Settings />{" "}
         </List>
-        <Divider />
+        <Typography component="div" sx={{ width: "90%", margin: "0 auto" }}>
+          <Divider />
+        </Typography>
         <List>
           <Channels />
         </List>
