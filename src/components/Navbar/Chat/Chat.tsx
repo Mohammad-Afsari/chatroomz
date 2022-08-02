@@ -17,7 +17,6 @@ import * as React from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import PersonPinIcon from "@mui/icons-material/PersonPin";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useMessages from "../../../services/useMessages";
 
@@ -31,11 +30,11 @@ const Chat = () => {
   const { setMessages } = useMessage();
   const { data } = useMessages();
   const scrollRef = React.useRef<any>(null);
+  const [avatarImage, setAvatarImage] = useState<string>();
+  const [avatars, setAvatars] = useState<any>();
 
   const runScroll = () =>
     scrollRef!.current!.scrollIntoView({ behaviour: "smooth" });
-
-  // scrollRef.scrollIntoView({ top: element.scrollHeight, behavior: "smooth" });
 
   // no longer req
   const [value, setValue] = useState<string>();
@@ -47,22 +46,10 @@ const Chat = () => {
 
   // Get Channel name on click
   useEffect(() => {
-    // const getChannelName = async () => {
-    //   const { data } = await supabase
-    //     .from("channel")
-    //     .select()
-    //     .match({ id: currentChannel });
-    //   setChannelName(data![0].channel_name);
-    //   setChannelDesc(data![0].channel_desc);
-    // };
-    // if (currentChannel) {
-    //   getChannelName();
-    // }
     if (data & currentChannel) {
       setChannelName(data![0].channel_name);
       setChannelDesc(data![0].channel_desc);
     }
-    console.log(data);
   }, [channelName, currentChannel]);
 
   // Set messages to global store after fetching from supabase
@@ -88,12 +75,39 @@ const Chat = () => {
 
     setTimeout(() => {
       runScroll();
-    }, 500);
+    }, 1000);
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
+
+  // Fetch all avatars
+  useEffect(() => {
+    const fetchAvatars = async () => {
+      const { data, error } = await supabase.storage.from("avatars").list();
+
+      console.log(data![1].name);
+
+      const { publicURL } = await supabase.storage
+        .from("avatars")
+        .getPublicUrl(`${data![1].name}`);
+      console.log(publicURL);
+      // setAvatars(data);
+    };
+    fetchAvatars();
+  }, []);
+
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      const { data, error } = await supabase.storage
+        .from("avatars")
+        .getPublicUrl(`${session?.user?.id}.jpg`);
+      console.log(data);
+      setAvatarImage(data?.publicURL);
+    };
+    fetchAvatar();
+  }, []);
 
   return (
     <>
@@ -102,6 +116,7 @@ const Chat = () => {
           sx={{
             // maxHeight: 700,
             height: "80vh",
+            flexFlow: "column",
             overflow: "auto",
             width: "100%",
             margin: "0 auto",
@@ -109,8 +124,10 @@ const Chat = () => {
           }}
           // ref={scrollRef}
         >
+          <List sx={{ height: "87%" }}></List>
           <List sx={{ width: "100%" }}>
             {data?.map((m: any) => {
+              // console.log(m);
               let date = new Date(m.message_sent_at).toISOString();
               let messageTimeSent =
                 date.substring(11, 16) +
@@ -124,14 +141,20 @@ const Chat = () => {
                 <List key={m.id} sx={{ width: "100%" }}>
                   <ListItem>
                     <ListItemAvatar>
-                      <Avatar>
-                        <PersonPinIcon />
-                      </Avatar>
+                      {avatars?.map((a: any) => {
+                        // console.log(a);
+                        // if (m.user_id === a.name) {
+                        // }
+                      })}
+                      {/* <Avatar variant="rounded" src={avatarImage} /> */}
                     </ListItemAvatar>
                     <Grid container spacing={0} direction="column">
                       <Grid item xs={10} sx={{}}>
                         {data && m.profile.username + " "}
-                        <Typography component="span" sx={{ fontSize: "10px" }}>
+                        <Typography
+                          component="span"
+                          sx={{ fontSize: "10px", color: "#828784" }}
+                        >
                           {data && messageTimeSent}
                         </Typography>
                       </Grid>
