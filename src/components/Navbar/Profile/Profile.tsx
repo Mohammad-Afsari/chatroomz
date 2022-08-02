@@ -1,12 +1,9 @@
 import { Avatar, Box, Button, Grid, Paper, Typography } from "@mui/material";
-import Image from "../../../imgs/loginbg.jpg";
 import CircleIcon from "@mui/icons-material/Circle";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState, useEffect } from "react";
 import { supabase } from "../../../services/supabaseClient";
 import { useAuth } from "../../../store/useAuth";
 import ProfileSettings from "./ProfileSettings/ProfileSettings";
-import { useQuery } from "@tanstack/react-query";
 import { useProfile } from "../../../services/useProfile";
 
 const Profile = () => {
@@ -18,14 +15,37 @@ const Profile = () => {
     // console.log(avatarImage);
   }, [avatarImage]);
 
+  const handleAvatar = async (e: any) => {
+    const avatarFile = e.target.files[0];
+    console.log(avatarFile);
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .upload(`${session?.user?.id}.jpg`, avatarFile, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+    console.log(data);
+  };
+
   useEffect(() => {
     const uploadAvatar = async () => {
-      const { data, error } = await supabase.storage.getBucket("avatars");
-
-      // console.log(data);
+      const { data, error } = await supabase.storage
+        .from("avatars")
+        .getPublicUrl(`${session?.user?.id}.jpg`);
+      console.log(data?.publicURL);
+      setAvatarImage(data?.publicURL);
     };
-    // uploadAvatar();
+    uploadAvatar();
   }, []);
+
+  // useEffect(() => {
+  //   const uploadAvatar = async () => {
+  //     const { data, error } = await supabase.storage.from("avatars").list();
+  //     console.log(data);
+  //     return data;
+  //   };
+  //   uploadAvatar();
+  // }, [avatarImage]);
 
   if (error) return <p>'An error has occursed'</p>;
 
@@ -57,16 +77,19 @@ const Profile = () => {
                 >
                   <Avatar
                     variant="rounded"
-                    //   src={Image}
+                    src={avatarImage}
                     sx={{ height: 50, width: 50 }}
                   />
                   <input
                     type="file"
                     hidden
                     accept="image/*"
-                    onChange={(e) => {
-                      setAvatarImage(e.target.value);
-                    }}
+                    // onChange={(e) => {
+                    // console.log(e.target.value);
+                    // setAvatarUrl(e.target.value);
+                    // setAvatarImage(e.target.value);
+                    // }}
+                    onChange={handleAvatar}
                   ></input>
                 </Button>
               </Typography>

@@ -4,21 +4,32 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { signOut } from "../../../../services/auth";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTitle } from "../../../../store/useTitle";
 import { useEffect } from "react";
 import { supabase } from "../../../../services/supabaseClient";
 import { useChannel } from "../../../../store/useChannel";
+import { useAuth } from "../../../../store/useAuth";
 
 const ProfileSettings = () => {
   const { setChannelTitle, setChannelDescription } = useTitle();
   const { currentChannel, channel, setCurrentChannel } = useChannel();
+  const { session } = useAuth();
+  const { roomId } = useParams();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  useEffect(() => {
+    if (session) {
+      if (!roomId) {
+        setChannelTitle("Home");
+      }
+    }
+  }, [roomId]);
 
   useEffect(() => {
     const getChannelInfo = async () => {

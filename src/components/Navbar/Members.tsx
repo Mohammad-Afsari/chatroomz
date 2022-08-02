@@ -8,9 +8,6 @@ import {
   Divider,
   Grid,
   List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
   ListItemText,
   Paper,
   Typography,
@@ -142,9 +139,16 @@ export default function SwipeableTemporaryDrawer() {
                 variant="rounded"
                 alt="Remy Sharp"
                 src="/static/images/avatar/1.jpg"
-                sx={{}}
+                sx={{ textAlign: "left" }}
               />
-              <ListItemText primary={text} />
+              <ListItemText
+                primary={text}
+                sx={{
+                  textAlign: "left",
+                  paddingLeft: "20px",
+                  maxWidth: "120px",
+                }}
+              />
             </Grid>
           </Paper>
         ))}

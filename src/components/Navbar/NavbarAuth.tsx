@@ -12,16 +12,11 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Button, Paper } from "@mui/material";
-import { signOut } from "../../services/auth";
 import Profile from "./Profile/Profile";
 import Settings from "./Settings/Settings";
 import Channels from "./Channels/Channels";
 import Chat from "./Chat/Chat";
-import { useChannel } from "../../store/useChannel";
-import { useLocation, useParams } from "react-router-dom";
-import { supabase } from "../../services/supabaseClient";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useParams } from "react-router-dom";
 import DeleteChannel from "./Channels/DeleteChannel/DeleteChannel";
 import Home from "./Home/Home";
 import { useTitle } from "../../store/useTitle";
@@ -83,7 +78,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const NavbarAuth = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const { channelTitle, channelDescription } = useTitle();
+  const { channelTitle } = useTitle();
   let { roomId } = useParams();
 
   const handleDrawerOpen = () => {
