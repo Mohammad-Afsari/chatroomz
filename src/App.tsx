@@ -21,10 +21,18 @@ import { theme } from "./style/theme";
 import { CssBaseline } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 function App() {
   const { session, setSession } = useAuth();
 
-  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient();
 
   useEffect(() => {
     setSession(supabase.auth.session()); // removed for example

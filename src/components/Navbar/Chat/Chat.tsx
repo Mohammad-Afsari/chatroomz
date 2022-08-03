@@ -66,6 +66,10 @@ const Chat = () => {
     }
   }, [currentChannel]);
 
+  useEffect(() => {
+    runScroll();
+  }, [currentChannel]);
+
   const sendMessage = async () => {
     await supabase
       .from("message")
@@ -81,33 +85,6 @@ const Chat = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
   };
-
-  // Fetch all avatars
-  useEffect(() => {
-    const fetchAvatars = async () => {
-      const { data, error } = await supabase.storage.from("avatars").list();
-
-      console.log(data![1].name);
-
-      const { publicURL } = await supabase.storage
-        .from("avatars")
-        .getPublicUrl(`${data![1].name}`);
-      console.log(publicURL);
-      // setAvatars(data);
-    };
-    fetchAvatars();
-  }, []);
-
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      const { data, error } = await supabase.storage
-        .from("avatars")
-        .getPublicUrl(`${session?.user?.id}.jpg`);
-      console.log(data);
-      setAvatarImage(data?.publicURL);
-    };
-    fetchAvatar();
-  }, []);
 
   return (
     <>
@@ -141,12 +118,13 @@ const Chat = () => {
                 <List key={m.id} sx={{ width: "100%" }}>
                   <ListItem>
                     <ListItemAvatar>
-                      {avatars?.map((a: any) => {
-                        // console.log(a);
-                        // if (m.user_id === a.name) {
-                        // }
-                      })}
-                      {/* <Avatar variant="rounded" src={avatarImage} /> */}
+                      {/* AVATARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR */}
+                      {data && (
+                        <Avatar
+                          variant="rounded"
+                          src={m.profile.avatar_url + "?" + Date.now()}
+                        />
+                      )}
                     </ListItemAvatar>
                     <Grid container spacing={0} direction="column">
                       <Grid item xs={10} sx={{}}>

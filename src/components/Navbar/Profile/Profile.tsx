@@ -5,47 +5,108 @@ import { supabase } from "../../../services/supabaseClient";
 import { useAuth } from "../../../store/useAuth";
 import ProfileSettings from "./ProfileSettings/ProfileSettings";
 import { useProfile } from "../../../services/useProfile";
+import { queryClient } from "../../../App";
 
 const Profile = () => {
   const { session } = useAuth();
-  const [avatarImage, setAvatarImage] = useState<string>();
+  const [avatarImage, setAvatarImage] = useState<any>();
   const { data, error } = useProfile();
+  const [avatarURL, setAvatarURL] = useState<string>();
+  const [avatarStorage, setAvatarStorage] = useState<
+    any[] | null | undefined
+  >();
 
+  // If there's an image, update the profile card
   useEffect(() => {
-    // console.log(avatarImage);
-  }, [avatarImage]);
-
-  const handleAvatar = async (e: any) => {
-    const avatarFile = e.target.files[0];
-    console.log(avatarFile);
-    const { data, error } = await supabase.storage
-      .from("avatars")
-      .upload(`${session?.user?.id}.jpg`, avatarFile, {
-        cacheControl: "3600",
-        upsert: false,
+    const fetchProfileAvatar = async () => {
+      const { data } = await supabase.from("profile");
+      data?.map((prof) => {
+        if (session?.user?.id === prof.id) {
+          setAvatarImage(prof.avatar_url);
+        }
       });
-    console.log(data);
-  };
-
-  useEffect(() => {
-    const uploadAvatar = async () => {
-      const { data, error } = await supabase.storage
-        .from("avatars")
-        .getPublicUrl(`${session?.user?.id}.jpg`);
-      console.log(data?.publicURL);
-      setAvatarImage(data?.publicURL);
     };
-    uploadAvatar();
+    fetchProfileAvatar();
   }, []);
 
-  // useEffect(() => {
-  //   const uploadAvatar = async () => {
-  //     const { data, error } = await supabase.storage.from("avatars").list();
-  //     console.log(data);
-  //     return data;
-  //   };
-  //   uploadAvatar();
-  // }, [avatarImage]);
+  // Update / Upload avatar to storage
+  const handleAvatar = async (e: any) => {
+    const avatarFile = e.target.files[0];
+
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .update(`${session?.user?.id}.jpg`, avatarFile, {
+        cacheControl: "3600",
+        // cacheControl: "0",
+        upsert: true,
+      });
+
+    console.log(data);
+
+    // queryClient.refetchQueries(["userData"]);
+    // queryClient.invalidateQueries(["userData"]);
+    queryClient.resetQueries(["userData"]);
+    queryClient.resetQueries(["messageData"]);
+
+    console.log(data);
+
+    // if (data) {
+    //   console.log(data);
+    //   setAvatarURL(data!.Key.slice(8, 44));
+    // }
+
+    // if (error) {
+    //   // upload avatar
+    //   const { data, error } = await supabase.storage
+    //     .from("avatars")
+    //     .upload(`${session?.user?.id}.jpg`, avatarFile, {
+    //       // cacheControl: "3600",
+    //       upsert: false,
+    //     });
+    //   setAvatarURL(data!.Key.slice(8, 44));
+    // }
+
+    // IGNORE SS
+    // const { data, error } = await supabase.storage
+    // .from("avatars")
+    // .upload(`${session?.user?.id}.jpg`, avatarFile, {
+    //   cacheControl: "3600",
+    //   upsert: false,
+    // });
+    // setAvatarURL(data!.Key.slice(8, 44));
+  };
+
+  // Once the avatar has been uploaded to storage, get the public url and save it to local state
+  useEffect(() => {
+    if (avatarURL) {
+      const fetchAvatarURL = async () => {
+        const { publicURL } = await supabase.storage
+          .from("avatars")
+          .getPublicUrl(`${avatarURL}.jpg`);
+        console.log(publicURL);
+        setAvatarImage(publicURL);
+      };
+      fetchAvatarURL();
+    }
+  }, [avatarURL]);
+
+  // From storage, update the profile table
+  useEffect(() => {
+    if (avatarURL) {
+      const updateProfileAvatar = async () => {
+        console.log(avatarImage);
+        console.log(avatarURL);
+        const { data } = await supabase
+          .from("profile")
+          .update({ avatar_url: avatarImage })
+          .match({ id: avatarURL });
+        if (data) {
+          console.log(data);
+        }
+      };
+      updateProfileAvatar();
+    }
+  }, [avatarImage, avatarURL]);
 
   if (error) return <p>'An error has occursed'</p>;
 
@@ -77,9 +138,16 @@ const Profile = () => {
                 >
                   <Avatar
                     variant="rounded"
-                    src={avatarImage}
+                    // src={avatarImage}
+                    src={data?.avatar_url + "?" + Date.now()}
                     sx={{ height: 50, width: 50 }}
+                    // key={Date.now()}
                   />
+                  {/* <img
+                    src={data?.avatar_url + "?" + Date.now()}
+                    style={{ height: "100px", width: "100px" }}
+                    // key={Date.now()}
+                  /> */}
                   <input
                     type="file"
                     hidden
