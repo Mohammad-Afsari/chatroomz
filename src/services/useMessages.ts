@@ -12,7 +12,7 @@ const useMessages = () => {
   const fetchMessages = async () => {
     const { data } = await supabase
       .from("message")
-      .select("*, profile (username)")
+      .select("*, profile (username, avatar_url)") // needs updating!
       .match({ channel_id: roomId })
       .order("message_sent_at", { ascending: true });
     if (data) {
