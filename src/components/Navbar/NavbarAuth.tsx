@@ -105,10 +105,6 @@ const NavbarAuth = () => {
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ width: "95%" }}>
             {channelTitle && channelTitle}
-            {/* {channelDescription ? " ~ " : ""}
-            <span style={{ fontSize: "12px" }}>
-              {channelDescription && channelDescription}
-            </span> */}
           </Typography>
           <Typography
             variant="h6"

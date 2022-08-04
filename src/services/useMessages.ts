@@ -5,7 +5,7 @@ import { useMessage } from "../store/useMessage";
 import { supabase } from "./supabaseClient";
 
 const useMessages = () => {
-  const { channel, currentChannel } = useChannel();
+  const { channel } = useChannel();
   const { message, setMessages } = useMessage();
   const { roomId } = useParams();
 
