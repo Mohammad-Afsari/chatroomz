@@ -37,7 +37,7 @@ const Chat = () => {
     scrollRef!.current!.scrollIntoView({ behaviour: "smooth" });
 
   // no longer req
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string | undefined>("");
 
   // Get user Id
   useEffect(() => {
@@ -69,7 +69,7 @@ const Chat = () => {
   useEffect(() => {
     setTimeout(() => {
       runScroll();
-    }, 200);
+    }, 300);
   }, [currentChannel, session?.user?.id]);
 
   const sendMessage = async () => {
@@ -86,6 +86,7 @@ const Chat = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    setValue("");
   };
 
   return (
@@ -153,7 +154,7 @@ const Chat = () => {
       <Box sx={{ display: "flex" }} component="form" onSubmit={handleSubmit}>
         <TextField
           placeholder="Enter your Message"
-          //   value={value}
+          value={value}
           sx={{
             margin: "0 auto",
             marginTop: "20px",
@@ -162,6 +163,7 @@ const Chat = () => {
           }}
           onChange={(e) => {
             setSingleMessage(e.target.value);
+            setValue(e.target.value);
           }}
           InputProps={{
             endAdornment: (
