@@ -1,5 +1,4 @@
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -23,7 +22,6 @@ const DeleteChannel = () => {
   const [channelCreator, setChannelCreator] = useState<string>();
   const { roomId } = useParams();
   const { setChannelTitle, setChannelDescription } = useTitle();
-  const { setChannels } = useChannel();
 
   // Temporarily put in to resolve UI feedback on form issue
   useEffect(() => {
@@ -46,8 +44,6 @@ const DeleteChannel = () => {
         setIfDeleteValid(false);
       }
     }
-
-    // console.log(channelCreator);
   }, [roomId, channelCreator, session?.user?.id]);
 
   const handleClickOpen = () => {
@@ -63,7 +59,7 @@ const DeleteChannel = () => {
       console.log("valid");
 
       const deleteChannel = async () => {
-        const { data, error } = await supabase
+        await supabase
           .from("channel")
           .delete()
           .match({ id: currentChannel, creator_id: session?.user?.id });
@@ -71,7 +67,7 @@ const DeleteChannel = () => {
       };
 
       const deleteMessages = async () => {
-        const { data } = await supabase
+        await supabase
           .from("message")
           .delete()
           .match({ channel_id: currentChannel });
@@ -87,12 +83,6 @@ const DeleteChannel = () => {
       setIfDeleteValid(false);
     }
   };
-
-  // const fetchNewChannels = async () => {
-  //   const { data } = await supabase.from("channel").select();
-  //   setChannels(data);
-  //   console.log(data);
-  // };
 
   return (
     <div>

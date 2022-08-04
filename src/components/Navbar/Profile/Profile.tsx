@@ -12,97 +12,63 @@ const Profile = () => {
   const [avatarImage, setAvatarImage] = useState<any>();
   const { data, error } = useProfile();
   const [avatarURL, setAvatarURL] = useState<string>();
-  const [avatarStorage, setAvatarStorage] = useState<
-    any[] | null | undefined
-  >();
 
   // If there's an image, update the profile card
   useEffect(() => {
     const fetchProfileAvatar = async () => {
       const { data } = await supabase.from("profile");
-      data?.map((prof) => {
+      data?.map((prof: any) => {
         if (session?.user?.id === prof.id) {
           setAvatarImage(prof.avatar_url);
         }
       });
     };
     fetchProfileAvatar();
-  }, []);
+  }, [avatarURL]);
 
   // Update / Upload avatar to storage
   const handleAvatar = async (e: any) => {
     const avatarFile = e.target.files[0];
 
-    const { data, error } = await supabase.storage
+    const { data } = await supabase.storage
       .from("avatars")
-      .update(`${session?.user?.id}.jpg`, avatarFile, {
+      // was previously update
+      .upload(`${session?.user?.id}.jpg`, avatarFile, {
         cacheControl: "3600",
-        // cacheControl: "0",
         upsert: true,
       });
+    if (data) {
+      // setAvatarURL(data?.Key.slice(8, 44));
+      setAvatarURL(data?.Key.slice(8, 44));
+    }
 
-    console.log(data);
-
-    // queryClient.refetchQueries(["userData"]);
-    // queryClient.invalidateQueries(["userData"]);
     queryClient.resetQueries(["userData"]);
     queryClient.resetQueries(["messageData"]);
-
-    console.log(data);
-
-    // if (data) {
-    //   console.log(data);
-    //   setAvatarURL(data!.Key.slice(8, 44));
-    // }
-
-    // if (error) {
-    //   // upload avatar
-    //   const { data, error } = await supabase.storage
-    //     .from("avatars")
-    //     .upload(`${session?.user?.id}.jpg`, avatarFile, {
-    //       // cacheControl: "3600",
-    //       upsert: false,
-    //     });
-    //   setAvatarURL(data!.Key.slice(8, 44));
-    // }
-
-    // IGNORE SS
-    // const { data, error } = await supabase.storage
-    // .from("avatars")
-    // .upload(`${session?.user?.id}.jpg`, avatarFile, {
-    //   cacheControl: "3600",
-    //   upsert: false,
-    // });
-    // setAvatarURL(data!.Key.slice(8, 44));
   };
 
   // Once the avatar has been uploaded to storage, get the public url and save it to local state
   useEffect(() => {
     if (avatarURL) {
-      const fetchAvatarURL = async () => {
+      const fetchAvatarImage = async () => {
         const { publicURL } = await supabase.storage
           .from("avatars")
           .getPublicUrl(`${avatarURL}.jpg`);
-        console.log(publicURL);
-        setAvatarImage(publicURL);
+        if (publicURL) {
+          setAvatarImage(publicURL);
+        }
       };
-      fetchAvatarURL();
+      fetchAvatarImage();
     }
   }, [avatarURL]);
 
   // From storage, update the profile table
   useEffect(() => {
-    if (avatarURL) {
+    if (avatarURL && avatarImage) {
       const updateProfileAvatar = async () => {
-        console.log(avatarImage);
-        console.log(avatarURL);
-        const { data } = await supabase
+        await supabase
           .from("profile")
           .update({ avatar_url: avatarImage })
           .match({ id: avatarURL });
-        if (data) {
-          console.log(data);
-        }
       };
       updateProfileAvatar();
     }
@@ -138,25 +104,13 @@ const Profile = () => {
                 >
                   <Avatar
                     variant="rounded"
-                    // src={avatarImage}
                     src={data?.avatar_url + "?" + Date.now()}
                     sx={{ height: 50, width: 50 }}
-                    // key={Date.now()}
                   />
-                  {/* <img
-                    src={data?.avatar_url + "?" + Date.now()}
-                    style={{ height: "100px", width: "100px" }}
-                    // key={Date.now()}
-                  /> */}
                   <input
                     type="file"
                     hidden
                     accept="image/*"
-                    // onChange={(e) => {
-                    // console.log(e.target.value);
-                    // setAvatarUrl(e.target.value);
-                    // setAvatarImage(e.target.value);
-                    // }}
                     onChange={handleAvatar}
                   ></input>
                 </Button>

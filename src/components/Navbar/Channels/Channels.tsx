@@ -1,10 +1,10 @@
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import { supabase } from "../../../services/supabaseClient";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CreateChannel from "./CreateChannel/CreateChannel";
 import { useChannel } from "../../../store/useChannel";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMessage } from "../../../store/useMessage";
 import * as React from "react";
 import List from "@mui/material/List";
