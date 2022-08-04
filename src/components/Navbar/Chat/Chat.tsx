@@ -67,8 +67,10 @@ const Chat = () => {
   }, [currentChannel]);
 
   useEffect(() => {
-    runScroll();
-  }, [currentChannel]);
+    setTimeout(() => {
+      runScroll();
+    }, 200);
+  }, [currentChannel, session?.user?.id]);
 
   const sendMessage = async () => {
     await supabase

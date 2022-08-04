@@ -97,7 +97,7 @@ const Signup = () => {
             />
             <TextField
               variant="outlined"
-              placeholder="Password"
+              placeholder="Password (atleast 6 characters)"
               type="password"
               onChange={(e) => {
                 setPassword(e.target.value);
