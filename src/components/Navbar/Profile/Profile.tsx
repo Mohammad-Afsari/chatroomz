@@ -24,6 +24,8 @@ const Profile = () => {
       });
     };
     fetchProfileAvatar();
+    queryClient.resetQueries(["userData"]);
+    queryClient.resetQueries(["messageData"]);
   }, [avatarURL]);
 
   // Update / Upload avatar to storage
