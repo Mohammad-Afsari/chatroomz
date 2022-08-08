@@ -1,4 +1,6 @@
 import { supabase } from "./supabaseClient";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 
 // SignIn function
 export const signIn = async ({
@@ -11,7 +13,7 @@ export const signIn = async ({
   const { error } = await supabase.auth.signIn({ email, password });
 
   if (error) {
-    alert("Error...");
+    // alert("Error...");
     throw Error(error.message);
   }
 };
@@ -31,6 +33,7 @@ export const signUp = async ({
   );
 
   if (error) {
+    // alert(error.message);
     throw Error(error.message);
   }
 };

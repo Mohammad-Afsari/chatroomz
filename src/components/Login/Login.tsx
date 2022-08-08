@@ -4,42 +4,57 @@ import { Link } from "react-router-dom";
 import { signIn } from "../../services/auth";
 import NavBar from "../Navbar/Navbar";
 import { Box } from "@mui/system";
+import { useAuth } from "../../store/useAuth";
+import * as React from "react";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { useMutation } from "@tanstack/react-query";
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function Login() {
   const [loading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { session } = useAuth();
+  const { mutate, data, isLoading, error } = useMutation((data: any) => {
+    return signIn(data);
+  });
 
-  // useEffect(() => {
-  //   // supabase
-  //   //   .from("profile")
-  //   //   .update({ username: "hello" })
-  //   //   .match({ id: "f278ff1e-3cb3-4daf-bb35-1a72a01e9f99" })
-  //   //   .then((d) => {
-  //   //     console.log(d);
-  //   //   });
-  //   supabase
-  //     .from("participant")
-  //     .delete()
-  //     .match({ id: "18dd5097-7721-4122-80db-b92c22e3cef0" })
-  //     .then((d) => {
-  //       console.log(d);
-  //     });
-  // }, []);
+  console.log(error);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-
-    // Get email and password input values
-    // const email = emailRef.current.value;
-    // const password = passwordRef.current.value;
 
     // Calls `signIn` function from the context
     await signIn({ email, password });
   };
 
   return (
-    <Box>
+    <>
       <NavBar />
       <Grid container spacing={0}>
         <Grid
@@ -55,7 +70,8 @@ export default function Login() {
             variant="h2"
             sx={{
               textAlign: "left",
-              width: "40vw",
+              width: "80vw",
+              maxWidth: "800px",
               margin: "0px auto",
               marginTop: "100px",
             }}
@@ -65,7 +81,12 @@ export default function Login() {
           </Typography>
           <Typography
             variant="h5"
-            sx={{ textAlign: "left", width: "40vw", margin: "40px auto" }}
+            sx={{
+              textAlign: "left",
+              width: "80vw",
+              maxWidth: "800px",
+              margin: "40px auto",
+            }}
             component={"span"}
           >
             Login to access ChatRoomz
@@ -77,7 +98,8 @@ export default function Login() {
             variant="h2"
             sx={{
               textAlign: "left",
-              width: "40vw",
+              width: "80vw",
+              maxWidth: "800px",
               margin: "0 auto",
             }}
             component={"span"}
@@ -142,9 +164,13 @@ export default function Login() {
                         type="submit"
                         sx={{
                           color: "white",
-                          width: "15vw",
+                          width: "30vw",
+                          maxWidth: "200px",
                         }}
-                        onClick={handleLogin}
+                        onClick={() => {
+                          handleClick();
+                          mutate({ email, password });
+                        }}
                       >
                         Login
                       </Button>
@@ -179,6 +205,27 @@ export default function Login() {
           </Typography>
         </Grid>
       </Grid>
-    </Box>
+      {error && (
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="error"
+            sx={{
+              width: "100%",
+            }}
+          >
+            Error — Incorrect login credentials.
+          </Alert>
+        </Snackbar>
+      )}
+    </>
   );
 }
