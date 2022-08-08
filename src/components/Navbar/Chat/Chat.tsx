@@ -64,7 +64,7 @@ const Chat = () => {
   useEffect(() => {
     setTimeout(() => {
       runScroll();
-    }, 400);
+    }, 500);
   }, [currentChannel, session?.user?.id]);
 
   const sendMessage = async () => {
@@ -89,13 +89,18 @@ const Chat = () => {
       {
         <Paper
           sx={{
-            // maxHeight: 700,
-            height: "80vh",
+            height: [
+              "calc(81vh - 48px)", // xs 0px
+              "calc(85vh - 48px)", // sm 600px
+              "calc(80vh - 48px)", // md 900px
+              "calc(82vh - 48px)", // lg 1200px
+              "calc(85vh - 48px)", // xl 1536px
+            ],
             flexFlow: "column",
             overflow: "auto",
             width: "100%",
             margin: "0 auto",
-            marginTop: "10px",
+            marginTop: "7px",
           }}
         >
           <List sx={{ height: "87%" }}></List>

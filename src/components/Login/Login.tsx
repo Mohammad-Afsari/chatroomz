@@ -27,8 +27,6 @@ export default function Login() {
     return signIn(data);
   });
 
-  console.log(error);
-
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {

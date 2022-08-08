@@ -53,14 +53,17 @@ const Channel = () => {
 
   return (
     <>
-      <Typography variant="h6" sx={{ paddingLeft: "20px", color: "white" }}>
+      <Typography
+        variant="h6"
+        sx={{ paddingLeft: "20px", color: "white", marginBottom: "20px" }}
+      >
         # Channels
       </Typography>
       <Box
         sx={{
-          width: "90%",
+          width: "95%",
           paddingLeft: "20px",
-          height: "50vh",
+          height: "40vh",
           overflow: "auto",
         }}
       >
@@ -71,7 +74,6 @@ const Channel = () => {
         >
           {data &&
             data?.map((chan: any, key: number) => {
-              console.log(key);
               return (
                 <Link
                   to={"/" + chan.id}
@@ -93,7 +95,7 @@ const Channel = () => {
             })}
         </List>
       </Box>
-      <Box sx={{ marginTop: "30px" }}>
+      <Box sx={{ marginTop: "80px" }}>
         <Typography component="div" sx={{ paddingLeft: "20px" }}>
           <CreateChannel />
         </Typography>
