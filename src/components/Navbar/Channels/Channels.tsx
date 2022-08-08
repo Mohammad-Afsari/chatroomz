@@ -71,6 +71,7 @@ const Channel = () => {
         >
           {data &&
             data?.map((chan: any, key: number) => {
+              console.log(key);
               return (
                 <Link
                   to={"/" + chan.id}
@@ -79,9 +80,9 @@ const Channel = () => {
                   onClick={() => setCurrentChannel(chan.id)}
                 >
                   <ListItemButton
-                    selected={selectedIndex === key + 2}
+                    selected={roomId ? selectedIndex === key : undefined}
                     onClick={(event) => {
-                      handleListItemClick(event, key + 2);
+                      handleListItemClick(event, key);
                     }}
                     sx={{ borderRadius: "10px", color: "lightGray" }}
                   >
