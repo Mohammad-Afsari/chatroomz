@@ -64,7 +64,7 @@ const Chat = () => {
   useEffect(() => {
     setTimeout(() => {
       runScroll();
-    }, 300);
+    }, 400);
   }, [currentChannel, session?.user?.id]);
 
   const sendMessage = async () => {
