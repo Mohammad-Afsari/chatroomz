@@ -25,7 +25,6 @@ export default function SwipeableTemporaryDrawer() {
   const [channelTitle, setChannelTitle] = useState<string>();
   const [channelDescription, setChannelDescription] = useState<string>();
   const [members, setMembers] = useState<any>();
-  const [avatars, setAvatars] = useState<any>();
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -33,18 +32,9 @@ export default function SwipeableTemporaryDrawer() {
         .from("profile")
         .select()
         .order("created_at", { ascending: true });
-
-      let profiles: any[] = [];
-      let avatars: any[] = [];
-
       if (data) {
-        data?.map((m: any) => {
-          profiles.push(m.username);
-          // avatars.push(m.avatar_url);
-        });
+        setMembers(data);
       }
-      setMembers(profiles);
-      setAvatars(data);
     };
     fetchMembers();
   }, []);
@@ -142,11 +132,11 @@ export default function SwipeableTemporaryDrawer() {
               <Avatar
                 variant="rounded"
                 alt="Remy Sharp"
-                src="/static/images/avatar/1.jpg"
+                src={text.avatar_url}
                 sx={{ textAlign: "left" }}
               />
               <ListItemText
-                primary={text}
+                primary={text.username}
                 sx={{
                   textAlign: "left",
                   paddingLeft: "20px",

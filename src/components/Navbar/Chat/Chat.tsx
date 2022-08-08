@@ -17,7 +17,6 @@ import * as React from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import DeleteIcon from "@mui/icons-material/Delete";
 import useMessages from "../../../services/useMessages";
 
 const Chat = () => {
@@ -25,19 +24,15 @@ const Chat = () => {
   const [id, setId] = useState<string>();
   const [channelName, setChannelName] = useState<string>();
   const [channelDesc, setChannelDesc] = useState<string>();
+  const [value, setValue] = useState<string | undefined>("");
   const { session } = useAuth();
   const { currentChannel } = useChannel();
   const { setMessages } = useMessage();
   const { data } = useMessages();
   const scrollRef = React.useRef<any>(null);
-  const [avatarImage, setAvatarImage] = useState<string>();
-  const [avatars, setAvatars] = useState<any>();
 
   const runScroll = () =>
     scrollRef!.current!.scrollIntoView({ behaviour: "smooth" });
-
-  // no longer req
-  const [value, setValue] = useState<string | undefined>("");
 
   // Get user Id
   useEffect(() => {
@@ -102,12 +97,10 @@ const Chat = () => {
             margin: "0 auto",
             marginTop: "10px",
           }}
-          // ref={scrollRef}
         >
           <List sx={{ height: "87%" }}></List>
           <List sx={{ width: "100%" }}>
             {data?.map((m: any) => {
-              // console.log(m);
               let date = new Date(m.message_sent_at).toISOString();
               let messageTimeSent =
                 date.substring(11, 16) +
@@ -121,7 +114,6 @@ const Chat = () => {
                 <List key={m.id} sx={{ width: "100%" }}>
                   <ListItem>
                     <ListItemAvatar>
-                      {/* AVATARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR */}
                       {data && (
                         <Avatar
                           variant="rounded"
@@ -159,7 +151,6 @@ const Chat = () => {
             margin: "0 auto",
             marginTop: "20px",
             width: "100%",
-            // position: "fixed",
           }}
           onChange={(e) => {
             setSingleMessage(e.target.value);
