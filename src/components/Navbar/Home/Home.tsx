@@ -44,7 +44,7 @@ const Home = () => {
   return (
     <>
       <Typography variant="h5" sx={{ color: "#90caf9" }}>
-        Welcome to ChatRoomz!{" "}
+        Welcome to Strife!{" "}
       </Typography>{" "}
       <ul>
         {messages?.map((msg, index) => {

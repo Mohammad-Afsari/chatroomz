@@ -106,7 +106,7 @@ const Signup = () => {
               marginBottom: "40px",
             }}
           >
-            Access the best chatroom service
+            Access the best chatroom service.
           </Typography>
         </Grid>
         <Grid

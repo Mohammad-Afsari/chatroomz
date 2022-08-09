@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 import { signIn } from "../../services/auth";
 import NavBar from "../Navbar/Navbar";
 import { Box } from "@mui/system";
-import { useAuth } from "../../store/useAuth";
 import * as React from "react";
-import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useMutation } from "@tanstack/react-query";
@@ -22,7 +20,6 @@ export default function Login() {
   const [loading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { session } = useAuth();
   const { mutate, data, isLoading, error } = useMutation((data: any) => {
     return signIn(data);
   });
@@ -87,9 +84,8 @@ export default function Login() {
             }}
             component={"span"}
           >
-            Login to access ChatRoomz
+            Login to access Strife chatrooms.
           </Typography>
-          {/* <TestAnimation /> */}
         </Grid>
         <Grid item xs={12} sx={{ display: "flex" }}>
           <Typography

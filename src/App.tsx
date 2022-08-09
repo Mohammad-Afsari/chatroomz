@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { supabase } from "./services/supabaseClient";
 import Login from "./components/Login/Login";
 
-// Version 6 of react-router-dom 'Switch' is replaced by routers 'Routes'
 import {
   BrowserRouter as Router,
   Routes,
