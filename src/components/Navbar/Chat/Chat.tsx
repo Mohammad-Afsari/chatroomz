@@ -18,6 +18,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import useMessages from "../../../services/useMessages";
+import { useParams } from "react-router-dom";
 
 const Chat = () => {
   const [singleMessage, setSingleMessage] = useState<string>();
@@ -30,6 +31,7 @@ const Chat = () => {
   const { setMessages } = useMessage();
   const { data } = useMessages();
   const scrollRef = React.useRef<any>(null);
+  const { roomId } = useParams();
 
   const runScroll = () =>
     scrollRef!.current!.scrollIntoView({ behaviour: "smooth" });
@@ -59,7 +61,7 @@ const Chat = () => {
     if (currentChannel) {
       fetchMessages();
     }
-  }, [currentChannel]);
+  }, [currentChannel, roomId]);
 
   useEffect(() => {
     setTimeout(() => {

@@ -37,7 +37,7 @@ const Channel = () => {
 
   useEffect(() => {
     setCurrentChannel(roomId);
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     if (currentChannel) {
@@ -82,7 +82,10 @@ const Channel = () => {
                   onClick={() => setCurrentChannel(chan.id)}
                 >
                   <ListItemButton
-                    selected={roomId ? selectedIndex === key : undefined}
+                    // selected={roomId ? selectedIndex === key : undefined}
+                    selected={
+                      chan.id === roomId ? selectedIndex === key : undefined
+                    }
                     onClick={(event) => {
                       handleListItemClick(event, key);
                     }}
