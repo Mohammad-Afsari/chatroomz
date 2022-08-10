@@ -23,22 +23,13 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": "e194fa4255mshd8a7c2d57f60b66p11d4e7jsn789a5e4ae07b",
-        "X-RapidAPI-Host": "jokeapi-v2.p.rapidapi.com",
-      },
-    };
-    fetch(
-      "https://jokeapi-v2.p.rapidapi.com/joke/Any?format=json&contains=C%2523&idRange=0-150&blacklistFlags=nsfw%2Cracist",
-      options
-    ).then((res) =>
-      res.json().then((data) => {
+    fetch("https://v2.jokeapi.dev/joke/Any?contains=programmer")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
         setJoke(data.setup);
         setDelivery(data.delivery);
-      })
-    );
+      });
   }, []);
 
   return (
@@ -111,7 +102,7 @@ const Home = () => {
         </li>
       </ul>
       <Typography variant="h5" sx={{ color: "#90caf9" }}>
-        Joke of the day:
+        Strife jokes of the day:
         <Typography variant="h6" component="div" sx={{ color: "white" }}>
           {joke}
         </Typography>
