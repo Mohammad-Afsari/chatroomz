@@ -134,7 +134,6 @@ const Signup = () => {
           >
             <TextField
               required
-              autoFocus
               // inputProps={{ maxLength: 10 }}
               error={isUsernameInvalid}
               helperText={isUsernameInvalid && "Max: 10 characters."}
@@ -153,7 +152,6 @@ const Signup = () => {
             />
             <TextField
               required
-              autoFocus
               variant="outlined"
               placeholder="Email"
               type="email"
@@ -164,7 +162,6 @@ const Signup = () => {
             />
             <TextField
               required
-              autoFocus
               error={isPasswordInvalid}
               helperText={isPasswordInvalid && "Min: 6 characters."}
               variant="outlined"

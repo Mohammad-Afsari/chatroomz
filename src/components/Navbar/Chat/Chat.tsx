@@ -19,6 +19,8 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import useMessages from "../../../services/useMessages";
 import { useParams } from "react-router-dom";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import Image from "../../../imgs/user.png";
 
 const Chat = () => {
   const [singleMessage, setSingleMessage] = useState<string>();
@@ -121,12 +123,15 @@ const Chat = () => {
                 <List key={m.id} sx={{ width: "100%" }}>
                   <ListItem>
                     <ListItemAvatar>
-                      {data && (
-                        <Avatar
-                          variant="rounded"
-                          src={m.profile.avatar_url + "?" + Date.now()}
-                        />
-                      )}
+                      {data &&
+                        (m.profile.avatar_url ? (
+                          <Avatar
+                            variant="rounded"
+                            src={m.profile.avatar_url + "?" + Date.now()}
+                          />
+                        ) : (
+                          <Avatar variant="rounded" src={Image} />
+                        ))}
                     </ListItemAvatar>
                     <Grid container spacing={0} direction="column">
                       <Grid item xs={10} sx={{}}>
